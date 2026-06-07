@@ -8,8 +8,8 @@
 /*
  * Your application specific code will go here
  */
-define(['knockout', 'ojs/ojcontext', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/ojresponsiveknockoututils', 'ojs/ojcorerouter', 'ojs/ojmodulerouter-adapter', 'ojs/ojknockoutrouteradapter', 'ojs/ojurlparamadapter', 'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'ojs/ojmodule-element', 'ojs/ojknockout'],
-  function(ko, Context, moduleUtils, ResponsiveUtils, ResponsiveKnockoutUtils, CoreRouter, ModuleRouterAdapter, KnockoutRouterAdapter, UrlParamAdapter, ArrayDataProvider, KnockoutTemplateUtils) {
+define(['knockout', 'ojs/ojcontext', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/ojresponsiveknockoututils', 'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'ojs/ojmodule-element', 'ojs/ojknockout'],
+  function(ko, Context, moduleUtils, ResponsiveUtils, ResponsiveKnockoutUtils, ArrayDataProvider, KnockoutTemplateUtils) {
 
      function ControllerViewModel() {
 
@@ -19,10 +19,10 @@ define(['knockout', 'ojs/ojcontext', 'ojs/ojmodule-element-utils', 'ojs/ojrespon
         this.manner = ko.observable('polite');
         this.message = ko.observable();
 
-        announcementHandler = (event) => {
+        const announcementHandler = (event) => {
           this.message(event.detail.message);
           this.manner(event.detail.manner);
-      };
+        };
 
       document.getElementById('globalBody').addEventListener('announce', announcementHandler, false);
 
@@ -30,26 +30,44 @@ define(['knockout', 'ojs/ojcontext', 'ojs/ojmodule-element-utils', 'ojs/ojrespon
       const smQuery = ResponsiveUtils.getFrameworkQuery(ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY);
       this.smScreen = ResponsiveKnockoutUtils.createMediaQueryObservable(smQuery);
 
-      let navData = [
-        { path: '', redirect: 'dashboard' },
-        { path: 'dashboard', detail: { label: '3D Lab', iconClass: 'oj-ux-ico-scatter-plot' } },
-        { path: 'incidents', detail: { label: 'Insights', iconClass: 'oj-ux-ico-bar-chart' } },
-        { path: 'customers', detail: { label: 'Explorer', iconClass: 'oj-ux-ico-table' } },
-        { path: 'about', detail: { label: 'Method', iconClass: 'oj-ux-ico-information-s' } }
+      const navData = [
+        { path: 'lab', detail: { label: '3D Lab', iconClass: 'oj-ux-ico-scatter-plot' } },
+        { path: 'insights', detail: { label: 'Insights', iconClass: 'oj-ux-ico-bar-chart' } },
+        { path: 'data', detail: { label: 'Data', iconClass: 'oj-ux-ico-table' } },
+        { path: 'info', detail: { label: 'Info', iconClass: 'oj-ux-ico-information-s' } }
       ];
-      // Router setup
-      let router = new CoreRouter(navData, {
-        urlAdapter: new UrlParamAdapter()
+      const navPaths = navData.map((item) => item.path);
+      const defaultPage = 'lab';
+      const routeAliases = {
+        dashboard: 'lab',
+        incidents: 'insights',
+        customers: 'data',
+        about: 'info'
+      };
+      const normalizePage = (page) => {
+        const normalized = routeAliases[page] || page || defaultPage;
+        return navPaths.indexOf(normalized) >= 0 ? normalized : defaultPage;
+      };
+      const writeRoute = (page, replace) => {
+        const url = new URL(window.location.href);
+        if (url.searchParams.get('root') === page) {
+          return;
+        }
+        url.searchParams.set('root', page);
+        window.history[replace ? 'replaceState' : 'pushState'](null, '', url);
+      };
+
+      this.selectedPage = ko.observable(normalizePage(new URLSearchParams(window.location.search).get('root')));
+      this.moduleConfig = ko.pureComputed(() => moduleUtils.createConfig({ name: this.selectedPage() }));
+      writeRoute(this.selectedPage(), true);
+      this.selectedPage.subscribe((page) => {
+        writeRoute(page, false);
       });
-      router.sync();
+      window.addEventListener('popstate', () => {
+        this.selectedPage(normalizePage(new URLSearchParams(window.location.search).get('root')));
+      });
 
-      this.moduleAdapter = new ModuleRouterAdapter(router);
-
-      this.selection = new KnockoutRouterAdapter(router);
-
-      // Setup the navDataProvider with the routes, excluding the first redirected
-      // route.
-      this.navDataProvider = new ArrayDataProvider(navData.slice(1), {keyAttributes: "path"});
+      this.navDataProvider = new ArrayDataProvider(navData, {keyAttributes: "path"});
 
       // Header
       // Application Name used in Branding Area
@@ -58,9 +76,9 @@ define(['knockout', 'ojs/ojcontext', 'ojs/ojmodule-element-utils', 'ojs/ojrespon
       // Footer
       this.footerLinks = [
         { name: "Oracle JET Cookbook", linkId: "jetCookbook", linkTarget: "https://www.oracle.com/webfolder/technetwork/jet-910/jetCookbook.html?component=home&demo=all" },
-        { name: "Visual Lab", linkId: "visualLab", linkTarget: "?root=dashboard" },
-        { name: "Insights", linkId: "insights", linkTarget: "?root=incidents" },
-        { name: "Data Explorer", linkId: "dataExplorer", linkTarget: "?root=customers" }
+        { name: "Visual Lab", linkId: "visualLab", linkTarget: "?root=lab" },
+        { name: "Insights", linkId: "insights", linkTarget: "?root=insights" },
+        { name: "Data Explorer", linkId: "dataExplorer", linkTarget: "?root=data" }
       ];
      }
 

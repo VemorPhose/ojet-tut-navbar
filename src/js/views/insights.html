@@ -1,0 +1,69 @@
+<section class="atlas-page">
+  <div class="atlas-page-header">
+    <div>
+      <span class="atlas-kicker">Insights</span>
+      <h2>Market structure by laptop segment</h2>
+      <p>JET charts summarize price-driving fields from the Kaggle-style laptop price schema: form factor, RAM, storage, GPU, OS, display, and weight.</p>
+    </div>
+  </div>
+
+  <div class="insight-layout">
+    <section class="chart-panel chart-panel-large">
+      <div class="panel-heading">
+        <h3>Median price by form factor</h3>
+        <span>TypeName</span>
+      </div>
+      <oj-chart id="typeMedianChart" type="bar" orientation="vertical"
+                groups="[[typePriceGroups]]" series="[[typePriceSeries]]"
+                animation-on-display="auto" animation-on-data-change="auto"></oj-chart>
+    </section>
+
+    <section class="chart-panel">
+      <div class="panel-heading">
+        <h3>GPU brand premium</h3>
+        <span>Median price</span>
+      </div>
+      <oj-chart id="gpuPriceChart" type="bar" orientation="vertical"
+                groups="[[gpuPriceGroups]]" series="[[gpuPriceSeries]]"
+                animation-on-display="auto" animation-on-data-change="auto"></oj-chart>
+    </section>
+
+    <section class="chart-panel">
+      <div class="panel-heading">
+        <h3>OS family price</h3>
+        <span>Median price</span>
+      </div>
+      <oj-chart id="osPriceChart" type="bar" orientation="vertical"
+                groups="[[osPriceGroups]]" series="[[osPriceSeries]]"
+                animation-on-display="auto" animation-on-data-change="auto"></oj-chart>
+    </section>
+
+    <section class="chart-panel chart-panel-large">
+      <div class="panel-heading">
+        <h3>Storage premium by type</h3>
+        <span>Median price</span>
+      </div>
+      <oj-chart id="storagePremiumChart" type="bar" orientation="vertical"
+                groups="[[storagePremiumGroups]]" series="[[storagePremiumSeries]]"
+                animation-on-display="auto" animation-on-data-change="auto"></oj-chart>
+    </section>
+  </div>
+
+  <section class="insight-list-panel">
+    <div class="panel-heading">
+      <h3>Derived observations</h3>
+      <span>CSV-backed</span>
+    </div>
+    <oj-list-view id="insightList" data="[[insightListDP]]" class="insight-list" selection-mode="none">
+      <template slot="itemTemplate" data-oj-as="item">
+        <li>
+          <div class="insight-item">
+            <span><oj-bind-text value="[[item.data.label]]"></oj-bind-text></span>
+            <strong><oj-bind-text value="[[item.data.value]]"></oj-bind-text></strong>
+            <p><oj-bind-text value="[[item.data.note]]"></oj-bind-text></p>
+          </div>
+        </li>
+      </template>
+    </oj-list-view>
+  </section>
+</section>

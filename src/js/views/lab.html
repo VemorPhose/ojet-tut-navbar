@@ -1,0 +1,136 @@
+<section class="atlas-page atlas-lab">
+  <div class="atlas-page-header">
+    <div>
+      <span class="atlas-kicker">Laptop Atlas</span>
+      <h2>3D laptop market lab</h2>
+      <p>Explore robust price, performance, portability, display, and storage relationships across the laptop price dataset.</p>
+    </div>
+    <div class="atlas-header-meter">
+      <span><oj-bind-text value="[[visibleCount]]"></oj-bind-text> of <oj-bind-text value="[[totalCount]]"></oj-bind-text></span>
+      <oj-progress-bar value="[[coveragePercent]]" max="100"></oj-progress-bar>
+    </div>
+  </div>
+
+  <div class="atlas-filter-band">
+    <oj-form-layout max-columns="4" direction="row">
+      <oj-select-single label-hint="Company" data="[[companyOptionsDP]]" value="{{companyFilter}}" item-text="label"></oj-select-single>
+      <oj-select-single label-hint="Type" data="[[typeOptionsDP]]" value="{{typeFilter}}" item-text="label"></oj-select-single>
+      <oj-select-single label-hint="Operating system" data="[[osOptionsDP]]" value="{{osFilter}}" item-text="label"></oj-select-single>
+      <oj-slider label-hint="Maximum price" min="[[priceMin]]" max="[[priceMax]]" step="[[priceStep]]" value="{{priceLimit}}"></oj-slider>
+    </oj-form-layout>
+    <oj-button chroming="outlined" on-oj-action="[[resetFilters]]">
+      <span slot="startIcon" class="oj-ux-ico-refresh"></span>
+      Reset
+    </oj-button>
+  </div>
+
+  <div class="metric-grid">
+    <div class="metric-card">
+      <span>Median price</span>
+      <strong><oj-bind-text value="[[medianPriceLabel]]"></oj-bind-text></strong>
+    </div>
+    <div class="metric-card">
+      <span>Median RAM</span>
+      <strong><oj-bind-text value="[[medianRamLabel]]"></oj-bind-text></strong>
+    </div>
+    <div class="metric-card">
+      <span>Median weight</span>
+      <strong><oj-bind-text value="[[medianWeightLabel]]"></oj-bind-text></strong>
+    </div>
+    <div class="metric-card">
+      <span>Median storage</span>
+      <strong><oj-bind-text value="[[medianStorageLabel]]"></oj-bind-text></strong>
+    </div>
+  </div>
+
+  <div class="visual-workbench">
+    <div class="visual-head">
+      <div>
+        <h3><oj-bind-text value="[[activeScene().title]]"></oj-bind-text></h3>
+        <p><oj-bind-text value="[[activeScene().subtitle]]"></oj-bind-text></p>
+      </div>
+      <div class="axis-strip">
+        <oj-bind-for-each data="[[axisBadges]]">
+          <template>
+            <span class="axis-pill">
+              <b><oj-bind-text value="[[$current.data.label]]"></oj-bind-text></b>
+              <oj-bind-text value="[[$current.data.value]]"></oj-bind-text>
+            </span>
+          </template>
+        </oj-bind-for-each>
+      </div>
+    </div>
+
+    <oj-tab-bar id="visualTabs" class="visual-tabs" edge="top" selection="{{selectedScene}}">
+      <ul>
+        <li id="performance">
+          <a href="#">
+            <span class="oj-navigationlist-item-icon oj-ux-ico-dashboard"></span>
+            Performance
+          </a>
+        </li>
+        <li id="mobility">
+          <a href="#">
+            <span class="oj-navigationlist-item-icon oj-ux-ico-mobile"></span>
+            Mobility
+          </a>
+        </li>
+        <li id="display">
+          <a href="#">
+            <span class="oj-navigationlist-item-icon oj-ux-ico-monitor"></span>
+            Display
+          </a>
+        </li>
+      </ul>
+    </oj-tab-bar>
+
+    <oj-switcher value="[[selectedScene]]" class="visual-switcher">
+      <div slot="performance" class="visual-panel">
+        <div id="sceneMount-performance" class="scene-mount" aria-label="Performance 3D visualization"></div>
+      </div>
+      <div slot="mobility" class="visual-panel">
+        <div id="sceneMount-mobility" class="scene-mount" aria-label="Mobility 3D visualization"></div>
+      </div>
+      <div slot="display" class="visual-panel">
+        <div id="sceneMount-display" class="scene-mount" aria-label="Display and storage 3D visualization"></div>
+      </div>
+    </oj-switcher>
+
+    <div class="scene-footnote"><oj-bind-text value="[[sceneRangeText]]"></oj-bind-text></div>
+  </div>
+
+  <div class="chart-grid">
+    <section class="chart-panel">
+      <div class="panel-heading">
+        <h3>Median price by RAM</h3>
+        <span>Capacity ladder</span>
+      </div>
+      <oj-chart id="ramPriceChart" type="bar" orientation="vertical"
+                groups="[[ramChartGroups]]" series="[[ramChartSeries]]"
+                y-axis.title="Median price"
+                animation-on-display="auto" animation-on-data-change="auto"></oj-chart>
+    </section>
+
+    <section class="chart-panel">
+      <div class="panel-heading">
+        <h3>Log price vs weight</h3>
+        <span>Colored by form factor</span>
+      </div>
+      <oj-chart id="weightPriceChart" type="scatter"
+                series="[[portabilitySeries]]"
+                x-axis.title="Weight (kg)" y-axis.title="log10 price"
+                animation-on-display="auto" animation-on-data-change="auto"></oj-chart>
+    </section>
+
+    <section class="chart-panel chart-panel-wide">
+      <div class="panel-heading">
+        <h3>Brand median price</h3>
+        <span>Minimum 10 models</span>
+      </div>
+      <oj-chart id="brandPriceChart" type="bar" orientation="vertical"
+                groups="[[brandChartGroups]]" series="[[brandChartSeries]]"
+                y-axis.title="Median price"
+                animation-on-display="auto" animation-on-data-change="auto"></oj-chart>
+    </section>
+  </div>
+</section>

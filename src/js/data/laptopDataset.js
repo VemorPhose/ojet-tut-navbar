@@ -2,37 +2,59 @@ define(['text!./laptop-data.csv'], function(csvText) {
   'use strict';
 
   const palette = [
-    '#f3efe6', '#d6c6a8', '#ffffff', '#b8aa92', '#8f8474',
-    '#c7ccd1', '#f7d08a', '#b7d7d8', '#d9d9d9', '#a99d8d',
-    '#ece1cd', '#f8f5ee'
+    '#f59e0b', '#2563eb', '#059669', '#dc2626', '#7c3aed',
+    '#0891b2', '#db2777', '#4b5563', '#b45309', '#0f766e'
   ];
+
+  const namedColors = {
+    Gaming: '#dc2626',
+    Workstation: '#7c3aed',
+    Ultrabook: '#2563eb',
+    Notebook: '#64748b',
+    Netbook: '#0891b2',
+    '2 in 1 Convertible': '#059669',
+    SSD: '#2563eb',
+    HDD: '#b45309',
+    Hybrid: '#7c3aed',
+    Flash: '#0891b2',
+    Other: '#64748b',
+    Intel: '#2563eb',
+    AMD: '#dc2626',
+    Nvidia: '#059669',
+    Apple: '#111827',
+    Windows: '#2563eb',
+    macOS: '#111827',
+    Linux: '#f59e0b',
+    Chrome: '#059669',
+    None: '#64748b'
+  };
 
   const sceneConfigs = [
     {
       id: 'performance',
       label: 'Performance',
       iconClass: 'oj-ux-ico-dashboard',
-      title: 'Performance Surface',
-      subtitle: 'CPU clock, price, and memory density across brands',
-      colorKey: 'company',
-      groupLabel: 'Company',
+      title: 'Performance Price Cloud',
+      subtitle: 'RAM, CPU speed, and log-scaled price with robust percentile axes',
+      colorKey: 'typeName',
+      groupLabel: 'Type',
       axes: {
-        x: { key: 'cpuGhz', label: 'CPU GHz', unit: 'GHz' },
-        y: { key: 'price', label: 'Price', unit: '₹' },
-        z: { key: 'ramGb', label: 'RAM', unit: 'GB' }
+        x: { key: 'ramGb', label: 'RAM', unit: 'GB' },
+        y: { key: 'price', label: 'Price', unit: '₹', transform: 'log' },
+        z: { key: 'cpuGhz', label: 'CPU GHz', unit: 'GHz' }
       }
     },
     {
       id: 'mobility',
       label: 'Mobility',
       iconClass: 'oj-ux-ico-mobile',
-      title: 'Mobility Field',
-      subtitle: 'Weight, display size, and pricing tradeoffs by chassis type',
+      title: 'Portability Premium',
+      subtitle: 'Weight, screen size, and log-scaled price by chassis type',
       colorKey: 'typeName',
       groupLabel: 'Type',
       axes: {
         x: { key: 'weightKg', label: 'Weight', unit: 'kg' },
-        y: { key: 'price', label: 'Price', unit: '₹' },
+        y: { key: 'price', label: 'Price', unit: '₹', transform: 'log' },
         z: { key: 'inches', label: 'Screen', unit: 'in' }
       }
     },
@@ -40,14 +62,14 @@ define(['text!./laptop-data.csv'], function(csvText) {
       id: 'display',
       label: 'Display',
       iconClass: 'oj-ux-ico-monitor',
-      title: 'Display and Storage Volume',
-      subtitle: 'Resolution, storage capacity, and price by operating system',
-      colorKey: 'opSys',
-      groupLabel: 'OS',
+      title: 'Display and Storage Value',
+      subtitle: 'Pixel density, storage capacity, and log-scaled price by storage class',
+      colorKey: 'storageClass',
+      groupLabel: 'Storage',
       axes: {
-        x: { key: 'displayMp', label: 'Display', unit: 'MP' },
-        y: { key: 'price', label: 'Price', unit: '₹' },
-        z: { key: 'storageGb', label: 'Storage', unit: 'GB' }
+        x: { key: 'pixelDensity', label: 'Pixel density', unit: 'ppi' },
+        y: { key: 'price', label: 'Price', unit: '₹', transform: 'log' },
+        z: { key: 'storageGb', label: 'Storage', unit: 'GB', transform: 'log' }
       }
     }
   ];
@@ -133,6 +155,73 @@ define(['text!./laptop-data.csv'], function(csvText) {
     return total;
   }
 
+  function parseStorageClass(value) {
+    const text = String(value).toUpperCase();
+    const hasSsd = text.indexOf('SSD') >= 0;
+    const hasHdd = text.indexOf('HDD') >= 0;
+    if (hasSsd && hasHdd) {
+      return 'Hybrid';
+    }
+    if (hasSsd) {
+      return 'SSD';
+    }
+    if (hasHdd) {
+      return 'HDD';
+    }
+    if (text.indexOf('FLASH') >= 0) {
+      return 'Flash';
+    }
+    return 'Other';
+  }
+
+  function parseCpuBrand(value) {
+    const text = String(value);
+    if (/Intel/i.test(text)) {
+      return 'Intel';
+    }
+    if (/AMD/i.test(text)) {
+      return 'AMD';
+    }
+    if (/Samsung/i.test(text)) {
+      return 'Samsung';
+    }
+    return 'Other';
+  }
+
+  function parseGpuBrand(value) {
+    const text = String(value);
+    if (/Nvidia|GeForce|GTX|Quadro/i.test(text)) {
+      return 'Nvidia';
+    }
+    if (/AMD|Radeon|FirePro/i.test(text)) {
+      return 'AMD';
+    }
+    if (/Intel|Iris|HD Graphics|UHD/i.test(text)) {
+      return 'Intel';
+    }
+    return 'Other';
+  }
+
+  function normalizeOs(value) {
+    const text = String(value);
+    if (/Windows/i.test(text)) {
+      return 'Windows';
+    }
+    if (/mac|OS X/i.test(text)) {
+      return 'macOS';
+    }
+    if (/Linux/i.test(text)) {
+      return 'Linux';
+    }
+    if (/Chrome/i.test(text)) {
+      return 'Chrome';
+    }
+    if (/No OS/i.test(text)) {
+      return 'None';
+    }
+    return text || 'Other';
+  }
+
   function parseResolution(value) {
     const matches = String(value).match(/(\d{3,4})x(\d{3,4})/g);
     if (!matches || !matches.length) {
@@ -153,6 +242,24 @@ define(['text!./laptop-data.csv'], function(csvText) {
       return 0;
     }
     return filtered.reduce((total, value) => total + value, 0) / filtered.length;
+  }
+
+  function quantile(values, percentile) {
+    const filtered = values.filter((value) => Number.isFinite(value)).sort((a, b) => a - b);
+    if (!filtered.length) {
+      return 0;
+    }
+    const index = (filtered.length - 1) * percentile;
+    const lower = Math.floor(index);
+    const upper = Math.ceil(index);
+    if (lower === upper) {
+      return filtered[lower];
+    }
+    return filtered[lower] + (filtered[upper] - filtered[lower]) * (index - lower);
+  }
+
+  function median(values) {
+    return quantile(values, 0.5);
   }
 
   function max(values) {
@@ -200,11 +307,17 @@ define(['text!./laptop-data.csv'], function(csvText) {
     if (axis.unit === 'GB') {
       return Math.round(value) + ' GB';
     }
+    if (axis.unit === 'ppi') {
+      return Math.round(value) + ' ppi';
+    }
     return round(value, axis.unit === 'kg' || axis.unit === 'MP' || axis.unit === 'GHz' ? 2 : 1) + ' ' + axis.unit;
   }
 
   function colorFor(value) {
     const text = String(value || 'Other');
+    if (namedColors[text]) {
+      return namedColors[text];
+    }
     let hash = 0;
     for (let index = 0; index < text.length; index += 1) {
       hash = ((hash << 5) - hash) + text.charCodeAt(index);
@@ -220,6 +333,7 @@ define(['text!./laptop-data.csv'], function(csvText) {
     const pixelDensity = inches ? diagonalPixels / inches : 0;
     const price = number(row.Price);
     const memory = row.Memory || '';
+    const storageClass = parseStorageClass(memory);
 
     return {
       id: String(row.SrNo || index),
@@ -229,17 +343,22 @@ define(['text!./laptop-data.csv'], function(csvText) {
       inches: inches,
       screenResolution: row.ScreenResolution,
       cpu: row.Cpu,
+      cpuBrand: parseCpuBrand(row.Cpu),
       cpuGhz: parseCpuGHz(row.Cpu),
       ram: row.Ram,
       ramGb: parseRam(row.Ram),
       memory: memory,
       storageGb: parseStorageGb(memory),
-      storageType: memory.indexOf('SSD') >= 0 ? 'SSD' : memory.indexOf('HDD') >= 0 ? 'HDD' : 'Other',
+      storageType: storageClass,
+      storageClass: storageClass,
       gpu: row.Gpu,
+      gpuBrand: parseGpuBrand(row.Gpu),
       opSys: row.OpSys,
+      osFamily: normalizeOs(row.OpSys),
       weight: row.Weight,
       weightKg: parseWeight(row.Weight),
       price: price,
+      logPrice: Math.log10(Math.max(price, 1)),
       priceLabel: formatCurrency(price),
       displayMp: resolution.displayMp,
       pixelDensity: pixelDensity,
@@ -249,10 +368,13 @@ define(['text!./laptop-data.csv'], function(csvText) {
         row.TypeName,
         row.ScreenResolution,
         row.Cpu,
+        parseCpuBrand(row.Cpu),
         row.Ram,
         row.Memory,
         row.Gpu,
-        row.OpSys
+        parseGpuBrand(row.Gpu),
+        row.OpSys,
+        normalizeOs(row.OpSys)
       ].join(' ').toLowerCase()
     };
   });
@@ -284,9 +406,10 @@ define(['text!./laptop-data.csv'], function(csvText) {
   }
 
   function rankedAverage(list, key, metric, limit) {
-    return Object.keys(groupRows(list, key))
+    const groups = groupRows(list, key);
+    return Object.keys(groups)
       .map((group) => {
-        const groupRowsValue = groupRows(list, key)[group];
+        const groupRowsValue = groups[group];
         return {
           group: group,
           series: metric === 'price' ? 'Average price' : metric,
@@ -299,16 +422,104 @@ define(['text!./laptop-data.csv'], function(csvText) {
       .slice(0, limit || 10);
   }
 
+  function rankedMedian(list, key, metric, limit, minimumCount) {
+    const groups = groupRows(list, key);
+    return Object.keys(groups)
+      .map((group) => {
+        const groupRowsValue = groups[group];
+        const values = groupRowsValue.map((row) => row[metric]).filter((value) => Number.isFinite(value) && value > 0);
+        return {
+          group: group,
+          series: metric === 'price' ? 'Median price' : metric,
+          value: median(values),
+          avg: average(values),
+          p25: quantile(values, 0.25),
+          p75: quantile(values, 0.75),
+          count: groupRowsValue.length,
+          color: colorFor(group)
+        };
+      })
+      .filter((item) => item.count >= (minimumCount || 1))
+      .sort((a, b) => b.value - a.value)
+      .slice(0, limit || 10);
+  }
+
   function groupedCount(list, key, limit) {
-    return Object.keys(groupRows(list, key))
+    const groups = groupRows(list, key);
+    return Object.keys(groups)
       .map((group) => ({
         group: group,
         series: group,
-        value: groupRows(list, key)[group].length,
+        value: groups[group].length,
         color: colorFor(group)
       }))
       .sort((a, b) => b.value - a.value)
       .slice(0, limit || 12);
+  }
+
+  function groupedBarSeries(stats, seriesName) {
+    return [{
+      name: seriesName || 'Median price',
+      items: stats.map((item) => ({
+        value: item.value,
+        color: item.color,
+        shortDesc: item.group + ': ' + formatCurrencyShort(item.value) + ' median, ' + item.count + ' models'
+      }))
+    }];
+  }
+
+  function ramPriceStats(list) {
+    const stats = rankedMedian(list, 'ramGb', 'price', 20, 1)
+      .sort((a, b) => Number(a.group) - Number(b.group));
+    return stats.map((item) => ({
+      group: item.group + ' GB',
+      value: item.value,
+      count: item.count,
+      color: '#2563eb'
+    }));
+  }
+
+  function storagePremiumStats(list) {
+    const typeGroups = groupRows(list, 'typeName');
+    const types = Object.keys(typeGroups)
+      .map((type) => ({ type: type, count: typeGroups[type].length }))
+      .filter((item) => item.count >= 20)
+      .sort((a, b) => b.count - a.count)
+      .map((item) => item.type);
+
+    const storageClasses = ['SSD', 'HDD', 'Hybrid'];
+    const series = storageClasses.map((storageClass) => ({
+      name: storageClass,
+      color: colorFor(storageClass),
+      items: types.map((type) => {
+        const values = typeGroups[type]
+          .filter((row) => row.storageClass === storageClass)
+          .map((row) => row.price);
+        return values.length ? { value: median(values), shortDesc: type + ' ' + storageClass + ': ' + formatCurrencyShort(median(values)) } : null;
+      })
+    }));
+
+    return { groups: types, series: series };
+  }
+
+  function scatterSeries(list, xKey, yKey, groupKey, limit) {
+    const byGroup = groupRows(list, groupKey);
+    return Object.keys(byGroup)
+      .sort((a, b) => byGroup[b].length - byGroup[a].length)
+      .slice(0, limit || 8)
+      .map((group) => ({
+        name: group,
+        color: colorFor(group),
+        items: byGroup[group]
+          .filter((row) => Number.isFinite(row[xKey]) && Number.isFinite(row[yKey]))
+          .slice(0, 220)
+          .map((row) => ({
+            x: row[xKey],
+            y: row[yKey],
+            markerSize: row.ramGb >= 16 ? 9 : row.ramGb >= 8 ? 7 : 5,
+            shortDesc: row.company + ' ' + row.typeName + ': ' + formatCurrencyShort(row.price)
+          }))
+      }));
   }
 
   function scatterSample(list, xKey, yKey, groupKey, limit) {
@@ -362,12 +573,20 @@ define(['text!./laptop-data.csv'], function(csvText) {
     osOptions: selectOptions(rows.map((row) => row.opSys), 'All operating systems'),
     filterRows: filterRows,
     rankedAverage: rankedAverage,
+    rankedMedian: rankedMedian,
     groupedCount: groupedCount,
+    groupedBarSeries: groupedBarSeries,
+    ramPriceStats: ramPriceStats,
+    storagePremiumStats: storagePremiumStats,
     scatterSample: scatterSample,
+    scatterSeries: scatterSeries,
     colorFor: colorFor,
     formatCurrency: formatCurrency,
     formatCurrencyShort: formatCurrencyShort,
     formatAxisValue: formatAxisValue,
+    average: average,
+    median: median,
+    quantile: quantile,
     round: round
   };
 });

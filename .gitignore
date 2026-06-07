@@ -7,6 +7,8 @@
 /staged-themes
 /themes
 /jaftmp@
+/.npm-cache
+/.playwright-browsers
 
 /hybrid/node_modules
 /hybrid/platforms

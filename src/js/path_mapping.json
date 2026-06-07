@@ -231,12 +231,12 @@
     "three": {
       "cwd": "node_modules/three/build",
       "debug": {
-        "src": "three.module.js",
-        "path": "libs/three/three.module.js"
+        "src": ["three.module.js", "three.core.js"],
+        "path": "libs/three"
       },
       "release": {
-        "src": "three.module.min.js",
-        "path": "libs/three/three.module.js"
+        "src": ["three.module.js", "three.core.js"],
+        "path": "libs/three"
       }
     },
     

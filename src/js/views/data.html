@@ -1,0 +1,32 @@
+<section class="atlas-page">
+  <div class="atlas-page-header">
+    <div>
+      <span class="atlas-kicker">Explorer</span>
+      <h2>CSV data explorer</h2>
+      <p>Search and filter the laptop rows by company, type, operating system, CPU, GPU, memory, and display text.</p>
+    </div>
+    <div class="atlas-header-meter">
+      <span><oj-bind-text value="[[resultCount]]"></oj-bind-text> matching rows</span>
+    </div>
+  </div>
+
+  <div class="atlas-filter-band explorer-filter-band">
+    <oj-form-layout max-columns="4" direction="row">
+      <oj-input-text label-hint="Search" value="{{searchQuery}}" clear-icon="always"></oj-input-text>
+      <oj-select-single label-hint="Company" data="[[companyOptionsDP]]" value="{{companyFilter}}" item-text="label"></oj-select-single>
+      <oj-select-single label-hint="Type" data="[[typeOptionsDP]]" value="{{typeFilter}}" item-text="label"></oj-select-single>
+      <oj-select-single label-hint="Operating system" data="[[osOptionsDP]]" value="{{osFilter}}" item-text="label"></oj-select-single>
+    </oj-form-layout>
+    <oj-button chroming="outlined" on-oj-action="[[resetFilters]]">
+      <span slot="startIcon" class="oj-ux-ico-refresh"></span>
+      Reset
+    </oj-button>
+  </div>
+
+  <section class="table-panel">
+    <oj-table id="laptopTable" data="[[tableDP]]" columns="[[columns]]"
+              display="grid" scroll-policy="loadMoreOnScroll"
+              scroll-policy-options.fetch-size="40"
+              class="laptop-table"></oj-table>
+  </section>
+</section>

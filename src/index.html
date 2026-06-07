@@ -76,21 +76,21 @@
             </div>
           </div>
           <div class="oj-flex-bar-end app-header-meta oj-sm-only-hide">
-            <span>1,302 laptops</span>
+            <span>1,303 laptops</span>
             <span>Oracle JET analytics</span>
           </div>
         </div>
         <div role="navigation" class="oj-web-applayout-max-width oj-web-applayout-navbar">
           <oj-tab-bar id="navTabBar" data="[[navDataProvider]]"
                               :class="[[{'oj-md-condense oj-md-justify-content-flex-end': !smScreen()}]]"
-                              display="[[smScreen() ? 'icons' : 'all']]"
+                              display="all"
                               edge="top"
                               item.renderer="[[KnockoutTemplateUtils.getRenderer('navTemplate', true)]]"
-                              selection="{{selection.path}}">
+                              selection="{{selectedPage}}">
           </oj-tab-bar>
         </div>
       </header>
-      <oj-module role="main" class="oj-web-applayout-max-width oj-web-applayout-content" config="[[moduleAdapter.koObservableConfig]]">
+      <oj-module role="main" class="oj-web-applayout-max-width oj-web-applayout-content" config="[[moduleConfig]]">
       </oj-module>
       <footer class="oj-web-applayout-footer" role="contentinfo">
         <div class="oj-web-applayout-footer-item oj-web-applayout-max-width">

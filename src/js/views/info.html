@@ -1,0 +1,59 @@
+<section class="atlas-page">
+  <div class="atlas-page-header">
+    <div>
+      <span class="atlas-kicker">Method</span>
+      <h2>Dataset and visualization method</h2>
+      <p>The laptop-data.csv fields are parsed into robust numeric dimensions for JET charts, tables, filters, and the three animated 3D scenes.</p>
+    </div>
+  </div>
+
+  <div class="method-grid">
+    <section class="method-panel">
+      <div class="panel-heading">
+        <h3>Dataset facts</h3>
+        <span>Parsed locally</span>
+      </div>
+      <oj-list-view id="datasetFacts" data="[[datasetFactsDP]]" selection-mode="none" class="fact-list">
+        <template slot="itemTemplate" data-oj-as="item">
+          <li>
+            <div class="fact-row">
+              <span><oj-bind-text value="[[item.data.label]]"></oj-bind-text></span>
+              <strong><oj-bind-text value="[[item.data.value]]"></oj-bind-text></strong>
+            </div>
+          </li>
+        </template>
+      </oj-list-view>
+    </section>
+
+    <section class="method-panel">
+      <div class="panel-heading">
+        <h3>3D axes</h3>
+        <span>Three tabs</span>
+      </div>
+      <oj-list-view id="axisFacts" data="[[axisFactsDP]]" selection-mode="none" class="fact-list">
+        <template slot="itemTemplate" data-oj-as="item">
+          <li>
+            <div class="fact-row fact-row-stacked">
+              <span><oj-bind-text value="[[item.data.label]]"></oj-bind-text></span>
+              <strong><oj-bind-text value="[[item.data.value]]"></oj-bind-text></strong>
+            </div>
+          </li>
+        </template>
+      </oj-list-view>
+    </section>
+  </div>
+
+  <oj-collapsible id="fieldMethod" class="method-collapsible" expanded="true">
+    <span slot="header">Parsed fields</span>
+    <div class="method-copy">
+      <p>RAM and weight are read from GB and kg strings. CPU speed is read from GHz values. Storage is summed across GB and TB memory tokens. Pixel density is calculated from the final resolution token in ScreenResolution and the screen size in inches.</p>
+    </div>
+  </oj-collapsible>
+
+  <oj-collapsible id="toolkitMethod" class="method-collapsible">
+    <span slot="header">Toolkit split</span>
+    <div class="method-copy">
+      <p>Oracle JET powers routing, navigation, tab selection, switcher panels, filters, charts, list views, progress, and the table. Three.js renders the draggable 3D point clouds inside those JET-managed panels, using log price axes and 4th-96th percentile bounds to prevent outliers from compressing the scene.</p>
+    </div>
+  </oj-collapsible>
+</section>
