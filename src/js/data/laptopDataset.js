@@ -2,31 +2,104 @@ define(['text!./laptop-data.csv'], function(csvText) {
   'use strict';
 
   const palette = [
-    '#FE5F55', '#BDD5EA', '#577399', '#F7F7FF', '#495867',
-    '#FF837B', '#9FBDD6', '#6C86AA', '#DCEBFA', '#354555'
+    '#BB4430', '#417B5A', '#8D99AE', '#1B2021', '#FFF1D0'
   ];
 
   const namedColors = {
-    Gaming: '#FE5F55',
-    Workstation: '#F7F7FF',
-    Ultrabook: '#BDD5EA',
-    Notebook: '#577399',
-    Netbook: '#9FBDD6',
-    '2 in 1 Convertible': '#FF837B',
-    SSD: '#BDD5EA',
-    HDD: '#FE5F55',
-    Hybrid: '#577399',
-    Flash: '#F7F7FF',
-    Other: '#495867',
-    Intel: '#BDD5EA',
-    AMD: '#FE5F55',
-    Nvidia: '#577399',
-    Apple: '#F7F7FF',
-    Windows: '#BDD5EA',
-    macOS: '#F7F7FF',
-    Linux: '#495867',
-    Chrome: '#577399',
-    None: '#495867'
+    Gaming: '#BB4430',
+    Workstation: '#417B5A',
+    Ultrabook: '#8D99AE',
+    Notebook: '#1B2021',
+    Netbook: '#BB4430',
+    '2 in 1 Convertible': '#417B5A',
+    SSD: '#417B5A',
+    HDD: '#BB4430',
+    Hybrid: '#8D99AE',
+    Flash: '#1B2021',
+    Other: '#8D99AE',
+    Intel: '#8D99AE',
+    AMD: '#BB4430',
+    Nvidia: '#417B5A',
+    Apple: '#1B2021',
+    Windows: '#417B5A',
+    macOS: '#1B2021',
+    Linux: '#8D99AE',
+    Chrome: '#BB4430',
+    None: '#8D99AE'
+  };
+
+  const chartTextStyle = {
+    color: '#1B2021',
+    fontWeight: '700'
+  };
+
+  const chartPlotArea = {
+    backgroundColor: '#FFF1D0',
+    borderColor: '#1B2021',
+    borderWidth: 3,
+    rendered: 'on'
+  };
+
+  const chartAxisLine = {
+    rendered: 'on',
+    lineColor: '#1B2021',
+    lineWidth: 2
+  };
+
+  const chartMajorTick = {
+    rendered: 'on',
+    lineColor: '#8D99AE',
+    lineWidth: 1,
+    baselineColor: '#1B2021',
+    baselineStyle: 'solid',
+    baselineWidth: 2
+  };
+
+  const chartMinorTick = {
+    rendered: 'off',
+    lineColor: '#8D99AE',
+    lineWidth: 1
+  };
+
+  const chartXAxis = {
+    axisLine: chartAxisLine,
+    majorTick: chartMajorTick,
+    minorTick: chartMinorTick,
+    tickLabel: { style: chartTextStyle },
+    titleStyle: chartTextStyle
+  };
+
+  const chartYAxis = {
+    axisLine: chartAxisLine,
+    majorTick: chartMajorTick,
+    minorTick: chartMinorTick,
+    tickLabel: { style: chartTextStyle },
+    titleStyle: chartTextStyle
+  };
+
+  const chartStyleDefaults = {
+    animationDownColor: '#BB4430',
+    animationUpColor: '#417B5A',
+    borderColor: '#1B2021',
+    borderWidth: 1,
+    colors: palette,
+    dataLabelOutline: 'off',
+    dataLabelStyle: chartTextStyle,
+    lineWidth: 3,
+    markerColor: '#BB4430',
+    markerSize: 8,
+    marqueeBorderColor: '#1B2021',
+    marqueeColor: '#8D99AE',
+    otherColor: '#8D99AE',
+    pieFeelerColor: '#1B2021',
+    seriesEffect: 'color',
+    stackLabelStyle: chartTextStyle,
+    stockFallingColor: '#BB4430',
+    stockRangeColor: '#8D99AE',
+    stockRisingColor: '#417B5A',
+    stockVolumeColor: '#1B2021',
+    tooltipLabelStyle: chartTextStyle,
+    tooltipValueStyle: chartTextStyle
   };
 
   const sceneConfigs = [
@@ -460,7 +533,7 @@ define(['text!./laptop-data.csv'], function(csvText) {
   function groupedBarSeries(stats, seriesName) {
     return [{
       name: seriesName || 'Median price',
-      color: '#FE5F55',
+      color: '#417B5A',
       items: stats.map((item) => ({
         value: item.value,
         color: item.color,
@@ -476,7 +549,7 @@ define(['text!./laptop-data.csv'], function(csvText) {
       group: item.group + ' GB',
       value: item.value,
       count: item.count,
-      color: '#BDD5EA'
+      color: '#BB4430'
     }));
   }
 
@@ -582,6 +655,10 @@ define(['text!./laptop-data.csv'], function(csvText) {
     scatterSample: scatterSample,
     scatterSeries: scatterSeries,
     colorFor: colorFor,
+    chartPlotArea: chartPlotArea,
+    chartStyleDefaults: chartStyleDefaults,
+    chartXAxis: chartXAxis,
+    chartYAxis: chartYAxis,
     formatCurrency: formatCurrency,
     formatCurrencyShort: formatCurrencyShort,
     formatAxisValue: formatAxisValue,

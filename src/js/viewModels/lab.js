@@ -40,6 +40,10 @@ define([
     this.brandChartGroups = ko.observableArray([]);
     this.brandChartSeries = ko.observableArray([]);
     this.portabilitySeries = ko.observableArray([]);
+    this.chartPlotArea = dataset.chartPlotArea;
+    this.chartStyleDefaults = dataset.chartStyleDefaults;
+    this.chartXAxis = dataset.chartXAxis;
+    this.chartYAxis = dataset.chartYAxis;
 
     this.totalCount = dataset.summary.total;
     this.summary = dataset.summary;

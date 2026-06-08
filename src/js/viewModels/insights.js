@@ -27,6 +27,10 @@ define([
     this.osPriceSeries = dataset.groupedBarSeries(osPrice, 'Median price');
     this.storagePremiumGroups = storagePremium.groups;
     this.storagePremiumSeries = storagePremium.series;
+    this.chartPlotArea = dataset.chartPlotArea;
+    this.chartStyleDefaults = dataset.chartStyleDefaults;
+    this.chartXAxis = dataset.chartXAxis;
+    this.chartYAxis = dataset.chartYAxis;
 
     this.insightListDP = new ArrayDataProvider([
       {

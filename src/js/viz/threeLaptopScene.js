@@ -3,16 +3,17 @@ define([], function() {
 
   let threeModulePromise;
   const sceneColors = {
-    background: 0x111821,
-    fog: 0x111821,
-    blueSlate: 0x495867,
-    glaucous: 0x577399,
-    paleSky: 0xBDD5EA,
-    ghost: 0xF7F7FF,
-    coral: 0xFE5F55,
-    labelBackground: 'rgba(23, 33, 44, 0.92)',
-    paleSkyCss: '#BDD5EA',
-    ghostCss: '#F7F7FF'
+    background: 0xFFF1D0,
+    fog: 0xFFF1D0,
+    blueSlate: 0x8D99AE,
+    glaucous: 0x417B5A,
+    paleSky: 0x8D99AE,
+    ghost: 0xFFF1D0,
+    coral: 0xBB4430,
+    ink: 0x1B2021,
+    labelBackground: '#FFF1D0',
+    paleSkyCss: '#417B5A',
+    ghostCss: '#1B2021'
   };
 
   function loadThree() {
@@ -99,13 +100,12 @@ define([], function() {
     context.strokeStyle = color || sceneColors.paleSkyCss;
     context.lineWidth = 2;
     context.strokeRect(1, 1, 254, 62);
-    context.fillStyle = color || sceneColors.ghostCss;
+    context.fillStyle = sceneColors.ghostCss;
     context.fillText(label, 18, 40);
 
     const texture = new THREE.CanvasTexture(canvas);
     const material = new THREE.SpriteMaterial({
-      map: texture,
-      transparent: true
+      map: texture
     });
     const sprite = new THREE.Sprite(material);
     sprite.scale.set(5.9, 1.48, 1);
@@ -114,7 +114,7 @@ define([], function() {
 
   function addAxis(THREE, root, start, end, label, labelPosition, color) {
     const axisColor = color || sceneColors.paleSky;
-    const material = new THREE.LineBasicMaterial({ color: axisColor, transparent: true, opacity: 0.82 });
+    const material = new THREE.LineBasicMaterial({ color: axisColor });
     const geometry = new THREE.BufferGeometry().setFromPoints([
       new THREE.Vector3(start[0], start[1], start[2]),
       new THREE.Vector3(end[0], end[1], end[2])
@@ -128,7 +128,7 @@ define([], function() {
   }
 
   function addGrid(THREE, root, size) {
-    const material = new THREE.LineBasicMaterial({ color: sceneColors.glaucous, transparent: true, opacity: 0.3 });
+    const material = new THREE.LineBasicMaterial({ color: sceneColors.blueSlate });
     const geometry = new THREE.BufferGeometry();
     const points = [];
     const half = size / 2;
@@ -242,9 +242,9 @@ define([], function() {
       root.rotation.y = 0.62;
       scene.add(root);
 
-      const ambient = new THREE.AmbientLight(sceneColors.paleSky, 0.82);
+      const ambient = new THREE.AmbientLight(sceneColors.paleSky, 0.92);
       const key = new THREE.DirectionalLight(sceneColors.ghost, 1.22);
-      const rim = new THREE.PointLight(sceneColors.coral, 1.1, 90);
+      const rim = new THREE.PointLight(sceneColors.coral, 0.95, 90);
       key.position.set(10, 18, 14);
       rim.position.set(-14, 10, 18);
       scene.add(ambient, key, rim);
@@ -275,15 +275,13 @@ define([], function() {
       const pointMaterial = new THREE.PointsMaterial({
         size: rows.length > 850 ? 4.2 : 5.4,
         vertexColors: true,
-        transparent: true,
-        opacity: 0.92,
         sizeAttenuation: false
       });
       const points = new THREE.Points(pointGeometry, pointMaterial);
       root.add(points);
 
       const markerGeometry = new THREE.SphereGeometry(0.34, 24, 24);
-      const markerMaterial = new THREE.MeshBasicMaterial({ color: sceneColors.ghost, transparent: true, opacity: 0.94 });
+      const markerMaterial = new THREE.MeshBasicMaterial({ color: sceneColors.blueSlate });
       markerMaterial.depthTest = false;
       const marker = new THREE.Mesh(markerGeometry, markerMaterial);
       marker.visible = false;
