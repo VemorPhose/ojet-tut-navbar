@@ -2,6 +2,18 @@ define([], function() {
   'use strict';
 
   let threeModulePromise;
+  const sceneColors = {
+    background: 0x111821,
+    fog: 0x111821,
+    blueSlate: 0x495867,
+    glaucous: 0x577399,
+    paleSky: 0xBDD5EA,
+    ghost: 0xF7F7FF,
+    coral: 0xFE5F55,
+    labelBackground: 'rgba(23, 33, 44, 0.92)',
+    paleSkyCss: '#BDD5EA',
+    ghostCss: '#F7F7FF'
+  };
 
   function loadThree() {
     if (!threeModulePromise) {
@@ -82,12 +94,12 @@ define([], function() {
     canvas.height = 64 * pixelRatio;
     context.scale(pixelRatio, pixelRatio);
     context.font = '600 22px Arial, sans-serif';
-    context.fillStyle = 'rgba(5, 5, 5, 0.88)';
+    context.fillStyle = sceneColors.labelBackground;
     context.fillRect(0, 0, 256, 64);
-    context.strokeStyle = color || '#fafafa';
+    context.strokeStyle = color || sceneColors.paleSkyCss;
     context.lineWidth = 2;
     context.strokeRect(1, 1, 254, 62);
-    context.fillStyle = color || '#fafafa';
+    context.fillStyle = color || sceneColors.ghostCss;
     context.fillText(label, 18, 40);
 
     const texture = new THREE.CanvasTexture(canvas);
@@ -101,7 +113,8 @@ define([], function() {
   }
 
   function addAxis(THREE, root, start, end, label, labelPosition, color) {
-    const material = new THREE.LineBasicMaterial({ color: color || 0xf4f4f5, transparent: true, opacity: 0.82 });
+    const axisColor = color || sceneColors.paleSky;
+    const material = new THREE.LineBasicMaterial({ color: axisColor, transparent: true, opacity: 0.82 });
     const geometry = new THREE.BufferGeometry().setFromPoints([
       new THREE.Vector3(start[0], start[1], start[2]),
       new THREE.Vector3(end[0], end[1], end[2])
@@ -109,13 +122,13 @@ define([], function() {
     const line = new THREE.Line(geometry, material);
     root.add(line);
 
-    const sprite = createTextSprite(THREE, label, '#fafafa');
+    const sprite = createTextSprite(THREE, label, '#' + new THREE.Color(axisColor).getHexString());
     sprite.position.set(labelPosition[0], labelPosition[1], labelPosition[2]);
     root.add(sprite);
   }
 
   function addGrid(THREE, root, size) {
-    const material = new THREE.LineBasicMaterial({ color: 0x71717a, transparent: true, opacity: 0.28 });
+    const material = new THREE.LineBasicMaterial({ color: sceneColors.glaucous, transparent: true, opacity: 0.3 });
     const geometry = new THREE.BufferGeometry();
     const points = [];
     const half = size / 2;
@@ -207,7 +220,7 @@ define([], function() {
       container.classList.add('scene-ready');
 
       const scene = new THREE.Scene();
-      scene.fog = new THREE.Fog(0x000000, 46, 92);
+      scene.fog = new THREE.Fog(sceneColors.fog, 46, 92);
 
       const camera = new THREE.PerspectiveCamera(44, width / height, 0.1, 1000);
       camera.position.set(0, 11, 38);
@@ -220,7 +233,7 @@ define([], function() {
       });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       renderer.setSize(width, height);
-      renderer.setClearColor(0x050505, 1);
+      renderer.setClearColor(sceneColors.background, 1);
       container.appendChild(renderer.domElement);
 
       const tooltip = createTooltip(container);
@@ -229,17 +242,17 @@ define([], function() {
       root.rotation.y = 0.62;
       scene.add(root);
 
-      const ambient = new THREE.AmbientLight(0xf4f4f5, 0.88);
-      const key = new THREE.DirectionalLight(0xffffff, 1.3);
-      const rim = new THREE.PointLight(0xd4d4d8, 1.2, 90);
+      const ambient = new THREE.AmbientLight(sceneColors.paleSky, 0.82);
+      const key = new THREE.DirectionalLight(sceneColors.ghost, 1.22);
+      const rim = new THREE.PointLight(sceneColors.coral, 1.1, 90);
       key.position.set(10, 18, 14);
       rim.position.set(-14, 10, 18);
       scene.add(ambient, key, rim);
 
       addGrid(THREE, root, size);
-      addAxis(THREE, root, [-size / 2, -size / 2, -size / 2], [size / 2, -size / 2, -size / 2], config.axes.x.label, [size / 2 + 3.1, -size / 2, -size / 2], 0xfafafa);
-      addAxis(THREE, root, [-size / 2, -size / 2, -size / 2], [-size / 2, size / 2, -size / 2], config.axes.y.label, [-size / 2 - 3.1, size / 2 + 0.4, -size / 2], 0xd4d4d8);
-      addAxis(THREE, root, [-size / 2, -size / 2, -size / 2], [-size / 2, -size / 2, size / 2], config.axes.z.label, [-size / 2, -size / 2, size / 2 + 3.1], 0xa1a1aa);
+      addAxis(THREE, root, [-size / 2, -size / 2, -size / 2], [size / 2, -size / 2, -size / 2], config.axes.x.label, [size / 2 + 3.1, -size / 2, -size / 2], sceneColors.coral);
+      addAxis(THREE, root, [-size / 2, -size / 2, -size / 2], [-size / 2, size / 2, -size / 2], config.axes.y.label, [-size / 2 - 3.1, size / 2 + 0.4, -size / 2], sceneColors.paleSky);
+      addAxis(THREE, root, [-size / 2, -size / 2, -size / 2], [-size / 2, -size / 2, size / 2], config.axes.z.label, [-size / 2, -size / 2, size / 2 + 3.1], sceneColors.glaucous);
 
       const positions = [];
       const colors = [];
@@ -263,14 +276,14 @@ define([], function() {
         size: rows.length > 850 ? 4.2 : 5.4,
         vertexColors: true,
         transparent: true,
-        opacity: 0.9,
+        opacity: 0.92,
         sizeAttenuation: false
       });
       const points = new THREE.Points(pointGeometry, pointMaterial);
       root.add(points);
 
       const markerGeometry = new THREE.SphereGeometry(0.34, 24, 24);
-      const markerMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.88 });
+      const markerMaterial = new THREE.MeshBasicMaterial({ color: sceneColors.ghost, transparent: true, opacity: 0.94 });
       markerMaterial.depthTest = false;
       const marker = new THREE.Mesh(markerGeometry, markerMaterial);
       marker.visible = false;

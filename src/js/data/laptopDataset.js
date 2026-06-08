@@ -2,31 +2,31 @@ define(['text!./laptop-data.csv'], function(csvText) {
   'use strict';
 
   const palette = [
-    '#f59e0b', '#60a5fa', '#34d399', '#f87171', '#a78bfa',
-    '#22d3ee', '#f472b6', '#cbd5e1', '#fb923c', '#2dd4bf'
+    '#FE5F55', '#BDD5EA', '#577399', '#F7F7FF', '#495867',
+    '#FF837B', '#9FBDD6', '#6C86AA', '#DCEBFA', '#354555'
   ];
 
   const namedColors = {
-    Gaming: '#f87171',
-    Workstation: '#a78bfa',
-    Ultrabook: '#60a5fa',
-    Notebook: '#94a3b8',
-    Netbook: '#22d3ee',
-    '2 in 1 Convertible': '#34d399',
-    SSD: '#60a5fa',
-    HDD: '#fb923c',
-    Hybrid: '#a78bfa',
-    Flash: '#22d3ee',
-    Other: '#94a3b8',
-    Intel: '#60a5fa',
-    AMD: '#f87171',
-    Nvidia: '#34d399',
-    Apple: '#f8fafc',
-    Windows: '#60a5fa',
-    macOS: '#f8fafc',
-    Linux: '#f59e0b',
-    Chrome: '#34d399',
-    None: '#94a3b8'
+    Gaming: '#FE5F55',
+    Workstation: '#F7F7FF',
+    Ultrabook: '#BDD5EA',
+    Notebook: '#577399',
+    Netbook: '#9FBDD6',
+    '2 in 1 Convertible': '#FF837B',
+    SSD: '#BDD5EA',
+    HDD: '#FE5F55',
+    Hybrid: '#577399',
+    Flash: '#F7F7FF',
+    Other: '#495867',
+    Intel: '#BDD5EA',
+    AMD: '#FE5F55',
+    Nvidia: '#577399',
+    Apple: '#F7F7FF',
+    Windows: '#BDD5EA',
+    macOS: '#F7F7FF',
+    Linux: '#495867',
+    Chrome: '#577399',
+    None: '#495867'
   };
 
   const sceneConfigs = [
@@ -460,6 +460,7 @@ define(['text!./laptop-data.csv'], function(csvText) {
   function groupedBarSeries(stats, seriesName) {
     return [{
       name: seriesName || 'Median price',
+      color: '#FE5F55',
       items: stats.map((item) => ({
         value: item.value,
         color: item.color,
@@ -475,7 +476,7 @@ define(['text!./laptop-data.csv'], function(csvText) {
       group: item.group + ' GB',
       value: item.value,
       count: item.count,
-      color: '#60a5fa'
+      color: '#BDD5EA'
     }));
   }
 

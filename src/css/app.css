@@ -3,36 +3,45 @@
 */
 
 :root {
-  --atlas-bg: #000000;
-  --atlas-panel: #050505;
-  --atlas-card: #09090b;
-  --atlas-card-hover: #0f0f10;
-  --atlas-elevated: #111113;
-  --atlas-foreground: #fafafa;
-  --atlas-muted: #a1a1aa;
-  --atlas-subtle: #71717a;
-  --atlas-line: #27272a;
-  --atlas-line-strong: #3f3f46;
-  --atlas-ring: #f4f4f5;
-  --atlas-shadow: 0 18px 56px rgba(0, 0, 0, 0.48);
-  --atlas-shadow-soft: 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+  --atlas-blue-slate: #495867;
+  --atlas-glaucous: #577399;
+  --atlas-pale-sky: #bdd5ea;
+  --atlas-ghost: #f7f7ff;
+  --atlas-coral: #fe5f55;
+  --atlas-bg: #111821;
+  --atlas-panel: #17212c;
+  --atlas-card: #202b38;
+  --atlas-card-hover: #263443;
+  --atlas-elevated: #2f3d4e;
+  --atlas-foreground: var(--atlas-ghost);
+  --atlas-muted: var(--atlas-pale-sky);
+  --atlas-subtle: #93aac0;
+  --atlas-line: rgba(189, 213, 234, 0.18);
+  --atlas-line-strong: rgba(189, 213, 234, 0.34);
+  --atlas-ring: var(--atlas-coral);
+  --atlas-accent: var(--atlas-coral);
+  --atlas-accent-soft: rgba(254, 95, 85, 0.18);
+  --atlas-accent-blue: var(--atlas-glaucous);
+  --atlas-shadow: 0 20px 58px rgba(4, 8, 14, 0.48);
+  --atlas-shadow-soft: 0 1px 0 rgba(247, 247, 255, 0.08) inset;
   --oj-core-text-color-primary: var(--atlas-foreground);
   --oj-core-text-color-secondary: var(--atlas-muted);
-  --oj-core-text-color-disabled: #52525b;
+  --oj-core-text-color-disabled: rgba(189, 213, 234, 0.46);
   --oj-core-border-color: var(--atlas-line);
   --oj-core-border-color-enabled: var(--atlas-line);
-  --oj-core-border-color-selected: var(--atlas-foreground);
-  --oj-core-bg-color-hover: rgba(255, 255, 255, 0.06);
-  --oj-core-bg-color-active: rgba(255, 255, 255, 0.1);
-  --oj-core-bg-color-selected: rgba(255, 255, 255, 0.1);
+  --oj-core-border-color-selected: var(--atlas-accent);
+  --oj-core-bg-color-hover: rgba(189, 213, 234, 0.08);
+  --oj-core-bg-color-active: rgba(254, 95, 85, 0.16);
+  --oj-core-bg-color-selected: rgba(254, 95, 85, 0.14);
   --oj-collection-bg-color: var(--atlas-card);
-  --oj-collection-cell-banded-bg-color: rgba(255, 255, 255, 0.03);
-  --oj-collection-header-bg-color: #111113;
+  --oj-collection-cell-banded-bg-color: rgba(189, 213, 234, 0.055);
+  --oj-collection-header-bg-color: #253242;
   --oj-collection-header-text-color: var(--atlas-foreground);
-  --oj-collection-header-bg-color-hover: #18181b;
-  --oj-collection-header-bg-color-selected: rgba(255, 255, 255, 0.08);
+  --oj-collection-header-bg-color-hover: #2d3d4f;
+  --oj-collection-header-bg-color-selected: rgba(254, 95, 85, 0.14);
   --oj-chart-axis-title-text-color: var(--atlas-muted);
   --oj-chart-axis-tick-label-text-color: var(--atlas-muted);
+  --oj-chart-data-label-text-color: var(--atlas-foreground);
   --oj-label-color: var(--atlas-muted);
 }
 
@@ -68,11 +77,11 @@
 @keyframes atlas-mark-breathe {
   0%,
   100% {
-    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+    box-shadow: 0 0 0 rgba(254, 95, 85, 0);
   }
 
   50% {
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 34px rgba(254, 95, 85, 0.24);
   }
 }
 
@@ -99,19 +108,20 @@ body.oj-web-applayout-body {
 .oj-web-applayout-page {
   min-height: 100vh;
   background:
-    linear-gradient(rgba(255, 255, 255, 0.032) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.032) 1px, transparent 1px),
-    linear-gradient(180deg, #000000 0, #050505 34rem, #000000 100%);
-  background-size: 72px 72px, 72px 72px, auto;
+    linear-gradient(rgba(189, 213, 234, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(189, 213, 234, 0.045) 1px, transparent 1px),
+    radial-gradient(circle at 10% -10%, rgba(254, 95, 85, 0.18), transparent 26rem),
+    linear-gradient(180deg, #111821 0, #17212c 34rem, #111821 100%);
+  background-size: 72px 72px, 72px 72px, auto, auto;
 }
 
 .oj-web-applayout-header {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(0, 0, 0, 0.82);
+  background: rgba(17, 24, 33, 0.86);
   border-bottom: 1px solid var(--atlas-line);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  box-shadow: 0 1px 0 rgba(247, 247, 255, 0.06) inset;
   backdrop-filter: blur(18px);
 }
 
@@ -129,10 +139,10 @@ body.oj-web-applayout-body {
   width: 2.5rem;
   height: 2.5rem;
   place-items: center;
-  border: 1px solid var(--atlas-foreground);
+  border: 1px solid rgba(254, 95, 85, 0.72);
   border-radius: 8px;
-  background: var(--atlas-foreground);
-  color: var(--atlas-bg);
+  background: var(--atlas-coral);
+  color: #111821;
   font-size: 0.8rem;
   font-weight: 800;
   animation: atlas-mark-breathe 4.8s ease-in-out infinite;
@@ -166,7 +176,7 @@ body.oj-web-applayout-body {
   padding: 0.42rem 0.62rem;
   border: 1px solid var(--atlas-line);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(189, 213, 234, 0.07);
   color: var(--atlas-muted);
 }
 
@@ -179,7 +189,7 @@ body.oj-web-applayout-body {
   --oj-tab-bar-item-label-color: var(--atlas-muted);
   --oj-tab-bar-item-label-color-hover: var(--atlas-foreground);
   --oj-tab-bar-item-label-color-selected: var(--atlas-foreground);
-  --oj-tab-bar-item-border-color-selected: var(--atlas-foreground);
+  --oj-tab-bar-item-border-color-selected: var(--atlas-coral);
 }
 
 #navTabBar a,
@@ -219,7 +229,7 @@ body.oj-web-applayout-body {
 }
 
 .oj-web-applayout-footer {
-  background: #000000;
+  background: #111821;
   border-top: 1px solid var(--atlas-line);
   color: var(--atlas-subtle);
 }
@@ -230,7 +240,7 @@ body.oj-web-applayout-body {
 }
 
 .oj-web-applayout-footer a:hover {
-  color: #ffffff;
+  color: var(--atlas-coral);
 }
 
 .atlas-page {
@@ -276,7 +286,7 @@ body.oj-web-applayout-body {
   padding: 0.9rem;
   border: 1px solid var(--atlas-line);
   border-radius: 8px;
-  background: rgba(9, 9, 11, 0.86);
+  background: rgba(32, 43, 56, 0.88);
   color: var(--atlas-foreground);
   box-shadow: var(--atlas-shadow-soft);
 }
@@ -289,8 +299,8 @@ body.oj-web-applayout-body {
 }
 
 .atlas-header-meter oj-progress-bar {
-  --oj-progress-bar-track-bg-color: #27272a;
-  --oj-progress-bar-value-bg-color: var(--atlas-foreground);
+  --oj-progress-bar-track-bg-color: rgba(189, 213, 234, 0.16);
+  --oj-progress-bar-value-bg-color: var(--atlas-coral);
 }
 
 .atlas-filter-band {
@@ -302,7 +312,7 @@ body.oj-web-applayout-body {
   padding: 1rem;
   border: 1px solid var(--atlas-line);
   border-radius: 8px;
-  background: rgba(9, 9, 11, 0.82);
+  background: rgba(32, 43, 56, 0.84);
   box-shadow: var(--atlas-shadow-soft);
   backdrop-filter: blur(16px);
   animation: atlas-fade-up 520ms ease 80ms both;
@@ -331,7 +341,7 @@ body.oj-web-applayout-body {
   overflow: hidden;
   border: 1px solid var(--atlas-line);
   border-radius: 8px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)), var(--atlas-card);
+  background: linear-gradient(180deg, rgba(189, 213, 234, 0.075), rgba(73, 88, 103, 0.12)), var(--atlas-card);
   box-shadow: var(--atlas-shadow-soft);
   transition: transform 190ms ease, border-color 190ms ease, background-color 190ms ease, box-shadow 190ms ease;
 }
@@ -346,7 +356,7 @@ body.oj-web-applayout-body {
   inset: 0 auto auto 0;
   width: 100%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+  background: linear-gradient(90deg, transparent, rgba(254, 95, 85, 0.85), rgba(189, 213, 234, 0.75), transparent);
   animation: atlas-line-sweep 6s ease-in-out infinite;
   pointer-events: none;
 }
@@ -358,7 +368,7 @@ body.oj-web-applayout-body {
   transform: translateY(-2px);
   border-color: var(--atlas-line-strong);
   background-color: var(--atlas-card-hover);
-  box-shadow: var(--atlas-shadow-soft), 0 18px 48px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--atlas-shadow-soft), 0 18px 48px rgba(4, 8, 14, 0.34);
 }
 
 .metric-card {
@@ -401,7 +411,7 @@ body.oj-web-applayout-body {
 
 .visual-workbench {
   margin-top: 1rem;
-  background: linear-gradient(180deg, #0b0b0d 0, #050505 100%);
+  background: linear-gradient(180deg, #202b38 0, #151e29 100%);
   color: var(--atlas-foreground);
   box-shadow: var(--atlas-shadow-soft), var(--atlas-shadow);
   animation: atlas-fade-up 560ms ease 340ms both;
@@ -444,7 +454,7 @@ body.oj-web-applayout-body {
   padding: 0.35rem 0.55rem;
   border: 1px solid var(--atlas-line);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(189, 213, 234, 0.08);
   color: var(--atlas-muted);
   font-size: 0.78rem;
 }
@@ -456,7 +466,7 @@ body.oj-web-applayout-body {
 .visual-tabs {
   border-top: 1px solid var(--atlas-line);
   border-bottom: 1px solid var(--atlas-line);
-  background: rgba(255, 255, 255, 0.025);
+  background: rgba(73, 88, 103, 0.24);
 }
 
 .visual-switcher,
@@ -476,8 +486,9 @@ body.oj-web-applayout-body {
   overflow: hidden;
   cursor: grab;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.74)),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0, rgba(255, 255, 255, 0.035) 1px, transparent 1px, transparent 62px);
+    radial-gradient(circle at 50% 32%, rgba(87, 115, 153, 0.22), transparent 24rem),
+    linear-gradient(180deg, rgba(189, 213, 234, 0.035), rgba(17, 24, 33, 0.84)),
+    repeating-linear-gradient(90deg, rgba(189, 213, 234, 0.045) 0, rgba(189, 213, 234, 0.045) 1px, transparent 1px, transparent 62px);
 }
 
 .scene-mount:active {
@@ -513,15 +524,16 @@ body.oj-web-applayout-body {
   padding: 0.72rem;
   border: 1px solid var(--atlas-line-strong);
   border-radius: 8px;
-  background: rgba(5, 5, 5, 0.92);
+  background: rgba(23, 33, 44, 0.94);
   color: var(--atlas-foreground);
   font-size: 0.78rem;
   pointer-events: none;
   backdrop-filter: blur(12px);
+  box-shadow: 0 16px 42px rgba(4, 8, 14, 0.42), 0 0 0 1px rgba(254, 95, 85, 0.16);
 }
 
 .scene-tooltip strong {
-  color: #ffffff;
+  color: var(--atlas-ghost);
   font-size: 0.88rem;
 }
 
@@ -638,11 +650,11 @@ body.oj-web-applayout-body {
   --oj-core-text-color-primary: var(--atlas-foreground);
   --oj-core-text-color-secondary: var(--atlas-muted);
   --oj-collection-bg-color: var(--atlas-card);
-  --oj-collection-cell-banded-bg-color: rgba(255, 255, 255, 0.03);
-  --oj-collection-header-bg-color: #111113;
+  --oj-collection-cell-banded-bg-color: rgba(189, 213, 234, 0.055);
+  --oj-collection-header-bg-color: #253242;
   --oj-collection-header-text-color: var(--atlas-foreground);
-  --oj-collection-header-bg-color-hover: #18181b;
-  --oj-collection-header-bg-color-selected: rgba(255, 255, 255, 0.08);
+  --oj-collection-header-bg-color-hover: #2d3d4f;
+  --oj-collection-header-bg-color-selected: rgba(254, 95, 85, 0.14);
 }
 
 .laptop-table .oj-table-header,
@@ -650,7 +662,7 @@ body.oj-web-applayout-body {
 .laptop-table .oj-table-column-header-cell,
 .laptop-table .oj-table-gutter-start-header-cell,
 .laptop-table .oj-table-gutter-end-header-cell {
-  background-color: #111113 !important;
+  background-color: #253242 !important;
   color: var(--atlas-foreground) !important;
 }
 
@@ -723,37 +735,37 @@ oj-slider {
   --oj-core-text-color-secondary: var(--atlas-muted);
   --oj-label-color: var(--atlas-muted);
   --oj-label-inside-edge-color: var(--atlas-muted);
-  --oj-text-field-bg-color: #050505;
+  --oj-text-field-bg-color: #17212c;
   --oj-text-field-border-color: var(--atlas-line-strong);
-  --oj-text-field-border-color-focus: var(--atlas-foreground);
-  --oj-text-field-box-shadow-focus: 0 0 0 1px var(--atlas-foreground) inset;
+  --oj-text-field-border-color-focus: var(--atlas-coral);
+  --oj-text-field-box-shadow-focus: 0 0 0 1px var(--atlas-coral) inset;
   --oj-text-field-placeholder-color: var(--atlas-subtle);
   --oj-text-field-text-color: var(--atlas-foreground);
-  --oj-text-field-bg-color-disabled: #09090b;
+  --oj-text-field-bg-color-disabled: #202b38;
   --oj-text-field-border-color-disabled: var(--atlas-line);
-  --oj-text-field-text-color-disabled: #52525b;
+  --oj-text-field-text-color-disabled: rgba(189, 213, 234, 0.46);
 }
 
 oj-slider {
-  --oj-slider-track-bg-color: #27272a;
-  --oj-slider-value-bg-color: var(--atlas-foreground);
-  --oj-slider-thumb-bg-color: var(--atlas-foreground);
-  --oj-slider-thumb-border-color: #000000;
-  --oj-slider-thumb-bg-color-hover: #ffffff;
-  --oj-slider-thumb-bg-color-active: #d4d4d8;
-  --oj-slider-thumb-border-color-active: #000000;
+  --oj-slider-track-bg-color: rgba(189, 213, 234, 0.18);
+  --oj-slider-value-bg-color: var(--atlas-coral);
+  --oj-slider-thumb-bg-color: var(--atlas-coral);
+  --oj-slider-thumb-border-color: #111821;
+  --oj-slider-thumb-bg-color-hover: #ff837b;
+  --oj-slider-thumb-bg-color-active: #bdd5ea;
+  --oj-slider-thumb-border-color-active: #111821;
 }
 
 oj-button {
   --oj-button-outlined-chrome-border-color: var(--atlas-line-strong);
   --oj-button-outlined-chrome-text-color: var(--atlas-foreground);
-  --oj-button-outlined-chrome-bg-color: #050505;
-  --oj-button-outlined-chrome-bg-color-hover: var(--atlas-foreground);
-  --oj-button-outlined-chrome-border-color-hover: var(--atlas-foreground);
-  --oj-button-outlined-chrome-text-color-hover: #000000;
-  --oj-button-outlined-chrome-bg-color-active: #d4d4d8;
-  --oj-button-outlined-chrome-border-color-active: #d4d4d8;
-  --oj-button-outlined-chrome-text-color-active: #000000;
+  --oj-button-outlined-chrome-bg-color: #17212c;
+  --oj-button-outlined-chrome-bg-color-hover: var(--atlas-coral);
+  --oj-button-outlined-chrome-border-color-hover: var(--atlas-coral);
+  --oj-button-outlined-chrome-text-color-hover: #111821;
+  --oj-button-outlined-chrome-bg-color-active: #bdd5ea;
+  --oj-button-outlined-chrome-border-color-active: #bdd5ea;
+  --oj-button-outlined-chrome-text-color-active: #111821;
 }
 
 oj-chart {
@@ -761,7 +773,8 @@ oj-chart {
   --oj-core-text-color-secondary: var(--atlas-muted);
   --oj-chart-axis-title-text-color: var(--atlas-muted);
   --oj-chart-axis-tick-label-text-color: var(--atlas-muted);
-  --oj-dvt-item-outer-border-color-selected: var(--atlas-foreground);
+  --oj-chart-data-label-text-color: var(--atlas-foreground);
+  --oj-dvt-item-outer-border-color-selected: var(--atlas-coral);
   --oj-dvt-contrast-line-color: var(--atlas-line-strong);
 }
 
