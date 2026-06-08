@@ -139,6 +139,10 @@ define([], function() {
     return tooltip;
   }
 
+  function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+  }
+
   function setTooltip(tooltip, event, canvas, row, config, formatAxisValue) {
     const bounds = canvas.getBoundingClientRect();
     const title = document.createElement('strong');
@@ -157,9 +161,22 @@ define([], function() {
     groupLine.textContent = config.groupLabel + ': ' + (row[config.colorKey] || 'Other');
 
     tooltip.replaceChildren(title, meta, xLine, yLine, zLine, groupLine);
-    tooltip.style.left = Math.min(bounds.width - 230, event.clientX - bounds.left + 16) + 'px';
-    tooltip.style.top = Math.max(12, event.clientY - bounds.top - 18) + 'px';
     tooltip.hidden = false;
+
+    const tooltipBounds = tooltip.getBoundingClientRect();
+    const tooltipWidth = tooltipBounds.width || 224;
+    const tooltipHeight = tooltipBounds.height || 120;
+    const cursorX = event.clientX - bounds.left;
+    const cursorY = event.clientY - bounds.top;
+    let left = cursorX + 16;
+    let top = cursorY - 18;
+
+    if (left + tooltipWidth + 12 > bounds.width) {
+      left = cursorX - tooltipWidth - 16;
+    }
+
+    tooltip.style.left = clamp(left, 12, Math.max(12, bounds.width - tooltipWidth - 12)) + 'px';
+    tooltip.style.top = clamp(top, 12, Math.max(12, bounds.height - tooltipHeight - 12)) + 'px';
   }
 
   function createLaptopScene(container, options) {
@@ -254,13 +271,15 @@ define([], function() {
 
       const markerGeometry = new THREE.SphereGeometry(0.34, 24, 24);
       const markerMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.88 });
+      markerMaterial.depthTest = false;
       const marker = new THREE.Mesh(markerGeometry, markerMaterial);
       marker.visible = false;
       root.add(marker);
 
-      const raycaster = new THREE.Raycaster();
-      raycaster.params.Points.threshold = 0.72;
-      const pointer = new THREE.Vector2();
+      const projectedPoint = new THREE.Vector3();
+      const worldPoint = new THREE.Vector3();
+      const localPoint = new THREE.Vector3();
+      const pickRadius = rows.length > 850 ? 6 : 8;
 
       function resize() {
         if (destroyed) {
@@ -276,10 +295,40 @@ define([], function() {
       const resizeObserver = new ResizeObserver(resize);
       resizeObserver.observe(container);
 
-      function pointerFromEvent(event) {
+      function pickPoint(event) {
         const bounds = renderer.domElement.getBoundingClientRect();
-        pointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
-        pointer.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
+        const cursorX = event.clientX - bounds.left;
+        const cursorY = event.clientY - bounds.top;
+        let best = null;
+        let bestDistance = pickRadius;
+
+        root.updateMatrixWorld(true);
+        camera.updateMatrixWorld(true);
+
+        for (let index = 0; index < pointRows.length; index += 1) {
+          const offset = index * 3;
+          localPoint.set(positions[offset], positions[offset + 1], positions[offset + 2]);
+          worldPoint.copy(localPoint).applyMatrix4(points.matrixWorld);
+          projectedPoint.copy(worldPoint).project(camera);
+
+          if (projectedPoint.z < -1 || projectedPoint.z > 1) {
+            continue;
+          }
+
+          const screenX = (projectedPoint.x * 0.5 + 0.5) * bounds.width;
+          const screenY = (-projectedPoint.y * 0.5 + 0.5) * bounds.height;
+          const distance = Math.hypot(screenX - cursorX, screenY - cursorY);
+
+          if (distance <= bestDistance) {
+            bestDistance = distance;
+            best = {
+              index: index,
+              position: localPoint.clone()
+            };
+          }
+        }
+
+        return best;
       }
 
       function handlePointerDown(event) {
@@ -298,13 +347,10 @@ define([], function() {
           lastPointer = { x: event.clientX, y: event.clientY };
         }
 
-        pointerFromEvent(event);
-        raycaster.setFromCamera(pointer, camera);
-        const intersections = raycaster.intersectObject(points);
-        if (intersections.length) {
-          const intersection = intersections[0];
-          hoveredIndex = intersection.index;
-          marker.position.copy(intersection.point);
+        const picked = pickPoint(event);
+        if (picked) {
+          hoveredIndex = picked.index;
+          marker.position.copy(picked.position);
           marker.visible = true;
           setTooltip(tooltip, event, renderer.domElement, pointRows[hoveredIndex], config, formatAxisValue);
         } else {
