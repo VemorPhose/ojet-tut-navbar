@@ -108,8 +108,7 @@
       <oj-chart id="ramPriceChart" type="bar" orientation="vertical"
                 groups="[[ramChartGroups]]" series="[[ramChartSeries]]"
                 plot-area="[[chartPlotArea]]" style-defaults="[[chartStyleDefaults]]"
-                x-axis="[[chartXAxis]]" y-axis="[[chartYAxis]]"
-                y-axis.title="Median price"
+                x-axis="[[ramChartXAxis]]" y-axis="[[ramChartYAxis]]"
                 animation-on-display="auto" animation-on-data-change="auto"></oj-chart>
     </section>
 
@@ -121,8 +120,7 @@
       <oj-chart id="weightPriceChart" type="scatter"
                 series="[[portabilitySeries]]"
                 plot-area="[[chartPlotArea]]" style-defaults="[[chartStyleDefaults]]"
-                x-axis="[[chartXAxis]]" y-axis="[[chartYAxis]]"
-                x-axis.title="Weight (kg)" y-axis.title="log10 price"
+                x-axis="[[weightChartXAxis]]" y-axis="[[weightChartYAxis]]"
                 animation-on-display="auto" animation-on-data-change="auto"></oj-chart>
     </section>
 
@@ -134,8 +132,7 @@
       <oj-chart id="brandPriceChart" type="bar" orientation="vertical"
                 groups="[[brandChartGroups]]" series="[[brandChartSeries]]"
                 plot-area="[[chartPlotArea]]" style-defaults="[[chartStyleDefaults]]"
-                x-axis="[[chartXAxis]]" y-axis="[[chartYAxis]]"
-                y-axis.title="Median price"
+                x-axis="[[brandChartXAxis]]" y-axis="[[brandChartYAxis]]"
                 animation-on-display="auto" animation-on-data-change="auto"></oj-chart>
     </section>
   </div>

@@ -42,8 +42,12 @@ define([
     this.portabilitySeries = ko.observableArray([]);
     this.chartPlotArea = dataset.chartPlotArea;
     this.chartStyleDefaults = dataset.chartStyleDefaults;
-    this.chartXAxis = dataset.chartXAxis;
-    this.chartYAxis = dataset.chartYAxis;
+    this.ramChartXAxis = chartAxis(dataset.chartXAxis);
+    this.ramChartYAxis = chartAxis(dataset.chartYAxis, 'Median price');
+    this.weightChartXAxis = chartAxis(dataset.chartXAxis, 'Weight (kg)');
+    this.weightChartYAxis = chartAxis(dataset.chartYAxis, 'log10 price');
+    this.brandChartXAxis = chartAxis(dataset.chartXAxis);
+    this.brandChartYAxis = chartAxis(dataset.chartYAxis, 'Median price');
 
     this.totalCount = dataset.summary.total;
     this.summary = dataset.summary;
@@ -215,6 +219,24 @@ define([
     const min = dataset.quantile(values, 0.04);
     const max = dataset.quantile(values, 0.96);
     return dataset.formatAxisValue(min, axis) + ' to ' + dataset.formatAxisValue(max, axis);
+  }
+
+  function chartAxis(axis, title) {
+    const styledAxis = Object.assign({}, axis, {
+      axisLine: Object.assign({}, axis.axisLine),
+      majorTick: Object.assign({}, axis.majorTick),
+      minorTick: Object.assign({}, axis.minorTick),
+      tickLabel: {
+        style: Object.assign({}, axis.tickLabel.style)
+      },
+      titleStyle: Object.assign({}, axis.titleStyle)
+    });
+
+    if (title) {
+      styledAxis.title = title;
+    }
+
+    return styledAxis;
   }
 
   return LabViewModel;
