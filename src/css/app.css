@@ -3,27 +3,77 @@
 */
 
 :root {
-  --atlas-bg: #f4efe6;
-  --atlas-bg-strong: #fffaf1;
-  --atlas-panel: #fffdf8;
-  --atlas-panel-raised: #ffffff;
-  --atlas-ink: #171512;
-  --atlas-muted: #6f6253;
-  --atlas-soft: #8d806f;
-  --atlas-line: #d9cfbf;
-  --atlas-line-strong: #c8baa6;
-  --atlas-dark: #11100d;
-  --atlas-dark-2: #1b1712;
-  --atlas-cream: #f7f1e6;
-  --atlas-cream-muted: #d9cdbb;
-  --atlas-gold: #b7791f;
-  --atlas-blue: #1d4ed8;
-  --atlas-green: #047857;
-  --atlas-shadow-sm: 0 8px 24px rgba(23, 21, 18, 0.08);
-  --atlas-shadow-md: 0 18px 52px rgba(23, 21, 18, 0.12);
-  --oj-core-text-color-primary: var(--atlas-ink);
+  --atlas-bg: #000000;
+  --atlas-panel: #050505;
+  --atlas-card: #09090b;
+  --atlas-card-hover: #0f0f10;
+  --atlas-elevated: #111113;
+  --atlas-foreground: #fafafa;
+  --atlas-muted: #a1a1aa;
+  --atlas-subtle: #71717a;
+  --atlas-line: #27272a;
+  --atlas-line-strong: #3f3f46;
+  --atlas-ring: #f4f4f5;
+  --atlas-shadow: 0 18px 56px rgba(0, 0, 0, 0.48);
+  --atlas-shadow-soft: 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+  --oj-core-text-color-primary: var(--atlas-foreground);
   --oj-core-text-color-secondary: var(--atlas-muted);
+  --oj-core-text-color-disabled: #52525b;
   --oj-core-border-color: var(--atlas-line);
+  --oj-core-border-color-enabled: var(--atlas-line);
+  --oj-core-border-color-selected: var(--atlas-foreground);
+  --oj-core-bg-color-hover: rgba(255, 255, 255, 0.06);
+  --oj-core-bg-color-active: rgba(255, 255, 255, 0.1);
+  --oj-core-bg-color-selected: rgba(255, 255, 255, 0.1);
+  --oj-collection-bg-color: var(--atlas-card);
+  --oj-collection-cell-banded-bg-color: rgba(255, 255, 255, 0.03);
+  --oj-collection-header-bg-color: #111113;
+  --oj-collection-header-text-color: var(--atlas-foreground);
+  --oj-collection-header-bg-color-hover: #18181b;
+  --oj-collection-header-bg-color-selected: rgba(255, 255, 255, 0.08);
+  --oj-chart-axis-title-text-color: var(--atlas-muted);
+  --oj-chart-axis-tick-label-text-color: var(--atlas-muted);
+  --oj-label-color: var(--atlas-muted);
+}
+
+@keyframes atlas-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes atlas-line-sweep {
+  0% {
+    transform: translateX(-75%);
+    opacity: 0;
+  }
+
+  18%,
+  65% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateX(75%);
+    opacity: 0;
+  }
+}
+
+@keyframes atlas-mark-breathe {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  }
+
+  50% {
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+  }
 }
 
 html,
@@ -33,7 +83,7 @@ body {
 }
 
 body.oj-web-applayout-body {
-  color: var(--atlas-ink);
+  color: var(--atlas-foreground);
   letter-spacing: 0;
 }
 
@@ -49,16 +99,19 @@ body.oj-web-applayout-body {
 .oj-web-applayout-page {
   min-height: 100vh;
   background:
-    linear-gradient(180deg, #fffaf1 0, var(--atlas-bg) 30rem, #ece2d3 100%);
+    linear-gradient(rgba(255, 255, 255, 0.032) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.032) 1px, transparent 1px),
+    linear-gradient(180deg, #000000 0, #050505 34rem, #000000 100%);
+  background-size: 72px 72px, 72px 72px, auto;
 }
 
 .oj-web-applayout-header {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(17, 16, 13, 0.96);
-  border-bottom: 1px solid rgba(247, 241, 230, 0.14);
-  box-shadow: 0 10px 34px rgba(17, 16, 13, 0.18);
+  background: rgba(0, 0, 0, 0.82);
+  border-bottom: 1px solid var(--atlas-line);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
   backdrop-filter: blur(18px);
 }
 
@@ -76,17 +129,18 @@ body.oj-web-applayout-body {
   width: 2.5rem;
   height: 2.5rem;
   place-items: center;
-  border: 1px solid rgba(247, 241, 230, 0.36);
+  border: 1px solid var(--atlas-foreground);
   border-radius: 8px;
-  background: var(--atlas-cream);
-  color: var(--atlas-dark);
+  background: var(--atlas-foreground);
+  color: var(--atlas-bg);
   font-size: 0.8rem;
   font-weight: 800;
+  animation: atlas-mark-breathe 4.8s ease-in-out infinite;
 }
 
 .oj-web-applayout-header-title {
   margin: 0;
-  color: var(--atlas-cream);
+  color: var(--atlas-foreground);
   font-size: 1.08rem;
   line-height: 1.1;
   letter-spacing: 0;
@@ -94,7 +148,7 @@ body.oj-web-applayout-body {
 
 .app-brand-subtitle,
 .app-header-meta {
-  color: var(--atlas-cream-muted);
+  color: var(--atlas-muted);
 }
 
 .app-brand-subtitle {
@@ -110,24 +164,32 @@ body.oj-web-applayout-body {
 
 .app-header-meta span {
   padding: 0.42rem 0.62rem;
-  border: 1px solid rgba(247, 241, 230, 0.18);
+  border: 1px solid var(--atlas-line);
   border-radius: 8px;
-  background: rgba(247, 241, 230, 0.06);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--atlas-muted);
 }
 
 .oj-web-applayout-navbar {
   padding-bottom: 0.25rem;
 }
 
-#navTabBar {
-  --oj-core-text-color-primary: var(--atlas-cream);
-  --oj-core-text-color-secondary: var(--atlas-cream-muted);
+#navTabBar,
+.visual-tabs {
+  --oj-tab-bar-item-label-color: var(--atlas-muted);
+  --oj-tab-bar-item-label-color-hover: var(--atlas-foreground);
+  --oj-tab-bar-item-label-color-selected: var(--atlas-foreground);
+  --oj-tab-bar-item-border-color-selected: var(--atlas-foreground);
 }
 
 #navTabBar a,
 #navTabBar .oj-navigationlist-item-label,
-#navTabBar .oj-tabbar-item-label {
-  color: var(--atlas-cream-muted) !important;
+#navTabBar .oj-tabbar-item-label,
+.visual-tabs a,
+.visual-tabs .oj-navigationlist-item-label,
+.visual-tabs .oj-tabbar-item-label {
+  color: var(--atlas-muted) !important;
+  transition: color 180ms ease, transform 180ms ease;
 }
 
 #navTabBar .oj-selected a,
@@ -135,8 +197,19 @@ body.oj-web-applayout-body {
 #navTabBar .oj-selected .oj-navigationlist-item-label,
 #navTabBar .oj-hover .oj-navigationlist-item-label,
 #navTabBar .oj-selected .oj-tabbar-item-label,
-#navTabBar .oj-hover .oj-tabbar-item-label {
-  color: var(--atlas-cream) !important;
+#navTabBar .oj-hover .oj-tabbar-item-label,
+.visual-tabs .oj-selected a,
+.visual-tabs .oj-hover a,
+.visual-tabs .oj-selected .oj-navigationlist-item-label,
+.visual-tabs .oj-hover .oj-navigationlist-item-label,
+.visual-tabs .oj-selected .oj-tabbar-item-label,
+.visual-tabs .oj-hover .oj-tabbar-item-label {
+  color: var(--atlas-foreground) !important;
+}
+
+#navTabBar .oj-hover a,
+.visual-tabs .oj-hover a {
+  transform: translateY(-1px);
 }
 
 .oj-web-applayout-content {
@@ -146,13 +219,18 @@ body.oj-web-applayout-body {
 }
 
 .oj-web-applayout-footer {
-  background: var(--atlas-dark);
-  border-top: 1px solid rgba(247, 241, 230, 0.12);
-  color: var(--atlas-cream-muted);
+  background: #000000;
+  border-top: 1px solid var(--atlas-line);
+  color: var(--atlas-subtle);
 }
 
 .oj-web-applayout-footer a {
-  color: var(--atlas-cream);
+  color: var(--atlas-foreground);
+  transition: color 160ms ease;
+}
+
+.oj-web-applayout-footer a:hover {
+  color: #ffffff;
 }
 
 .atlas-page {
@@ -165,12 +243,13 @@ body.oj-web-applayout-body {
   justify-content: space-between;
   gap: 1.5rem;
   margin-bottom: 1.25rem;
+  animation: atlas-fade-up 520ms ease both;
 }
 
 .atlas-page-header h2 {
   max-width: 64rem;
   margin: 0.15rem 0 0.45rem;
-  color: var(--atlas-ink);
+  color: var(--atlas-foreground);
   font-size: 4.75rem;
   line-height: 0.96;
   letter-spacing: 0;
@@ -185,7 +264,7 @@ body.oj-web-applayout-body {
 }
 
 .atlas-kicker {
-  color: var(--atlas-gold);
+  color: var(--atlas-muted);
   font-size: 0.82rem;
   font-weight: 800;
   letter-spacing: 0;
@@ -197,9 +276,9 @@ body.oj-web-applayout-body {
   padding: 0.9rem;
   border: 1px solid var(--atlas-line);
   border-radius: 8px;
-  background: var(--atlas-panel);
-  color: var(--atlas-ink);
-  box-shadow: var(--atlas-shadow-sm);
+  background: rgba(9, 9, 11, 0.86);
+  color: var(--atlas-foreground);
+  box-shadow: var(--atlas-shadow-soft);
 }
 
 .atlas-header-meter span {
@@ -207,6 +286,11 @@ body.oj-web-applayout-body {
   margin-bottom: 0.55rem;
   color: var(--atlas-muted);
   font-size: 0.86rem;
+}
+
+.atlas-header-meter oj-progress-bar {
+  --oj-progress-bar-track-bg-color: #27272a;
+  --oj-progress-bar-value-bg-color: var(--atlas-foreground);
 }
 
 .atlas-filter-band {
@@ -218,8 +302,10 @@ body.oj-web-applayout-body {
   padding: 1rem;
   border: 1px solid var(--atlas-line);
   border-radius: 8px;
-  background: rgba(255, 253, 248, 0.86);
-  box-shadow: var(--atlas-shadow-sm);
+  background: rgba(9, 9, 11, 0.82);
+  box-shadow: var(--atlas-shadow-soft);
+  backdrop-filter: blur(16px);
+  animation: atlas-fade-up 520ms ease 80ms both;
 }
 
 .atlas-filter-band oj-form-layout {
@@ -239,27 +325,62 @@ body.oj-web-applayout-body {
 .table-panel,
 .method-panel,
 .insight-list-panel,
-.method-collapsible {
+.method-collapsible,
+.visual-workbench {
+  position: relative;
+  overflow: hidden;
   border: 1px solid var(--atlas-line);
   border-radius: 8px;
-  background: var(--atlas-panel-raised);
-  box-shadow: var(--atlas-shadow-sm);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)), var(--atlas-card);
+  box-shadow: var(--atlas-shadow-soft);
+  transition: transform 190ms ease, border-color 190ms ease, background-color 190ms ease, box-shadow 190ms ease;
 }
 
-.metric-card {
-  position: relative;
-  min-height: 7.25rem;
-  overflow: hidden;
-  padding: 1rem;
-}
-
-.metric-card::before {
+.metric-card::after,
+.chart-panel::after,
+.method-panel::after,
+.insight-list-panel::after,
+.visual-workbench::after {
   content: "";
   position: absolute;
   inset: 0 auto auto 0;
   width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, var(--atlas-dark), var(--atlas-gold), var(--atlas-blue));
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+  animation: atlas-line-sweep 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.metric-card:hover,
+.chart-panel:hover,
+.method-panel:hover,
+.insight-list-panel:hover {
+  transform: translateY(-2px);
+  border-color: var(--atlas-line-strong);
+  background-color: var(--atlas-card-hover);
+  box-shadow: var(--atlas-shadow-soft), 0 18px 48px rgba(0, 0, 0, 0.3);
+}
+
+.metric-card {
+  min-height: 7.25rem;
+  padding: 1rem;
+  animation: atlas-fade-up 520ms ease both;
+}
+
+.metric-card:nth-child(1) {
+  animation-delay: 140ms;
+}
+
+.metric-card:nth-child(2) {
+  animation-delay: 190ms;
+}
+
+.metric-card:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+.metric-card:nth-child(4) {
+  animation-delay: 290ms;
 }
 
 .metric-card span {
@@ -272,7 +393,7 @@ body.oj-web-applayout-body {
 .metric-card strong {
   display: block;
   margin-top: 0.6rem;
-  color: var(--atlas-ink);
+  color: var(--atlas-foreground);
   font-size: 2.45rem;
   line-height: 1;
   letter-spacing: 0;
@@ -280,14 +401,10 @@ body.oj-web-applayout-body {
 
 .visual-workbench {
   margin-top: 1rem;
-  overflow: hidden;
-  border: 1px solid rgba(247, 241, 230, 0.18);
-  border-radius: 8px;
-  background: linear-gradient(180deg, #1b1712 0, #0f0d0a 100%);
-  color: var(--atlas-cream);
-  box-shadow: 0 24px 70px rgba(17, 16, 13, 0.25);
-  --oj-core-text-color-primary: var(--atlas-cream);
-  --oj-core-text-color-secondary: var(--atlas-cream-muted);
+  background: linear-gradient(180deg, #0b0b0d 0, #050505 100%);
+  color: var(--atlas-foreground);
+  box-shadow: var(--atlas-shadow-soft), var(--atlas-shadow);
+  animation: atlas-fade-up 560ms ease 340ms both;
 }
 
 .visual-head {
@@ -300,14 +417,14 @@ body.oj-web-applayout-body {
 .visual-head h3,
 .panel-heading h3 {
   margin: 0;
-  color: inherit;
+  color: var(--atlas-foreground);
   font-size: 1.15rem;
   letter-spacing: 0;
 }
 
 .visual-head p {
   margin: 0.25rem 0 0;
-  color: var(--atlas-cream-muted);
+  color: var(--atlas-muted);
   line-height: 1.5;
 }
 
@@ -325,36 +442,21 @@ body.oj-web-applayout-body {
   align-items: center;
   min-height: 2rem;
   padding: 0.35rem 0.55rem;
-  border: 1px solid rgba(247, 241, 230, 0.18);
+  border: 1px solid var(--atlas-line);
   border-radius: 8px;
-  background: rgba(247, 241, 230, 0.06);
-  color: var(--atlas-cream-muted);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--atlas-muted);
   font-size: 0.78rem;
 }
 
 .axis-pill b {
-  color: #f0b94f;
+  color: var(--atlas-foreground);
 }
 
 .visual-tabs {
-  border-top: 1px solid rgba(247, 241, 230, 0.14);
-  border-bottom: 1px solid rgba(247, 241, 230, 0.14);
-  background: rgba(247, 241, 230, 0.04);
-}
-
-.visual-tabs a,
-.visual-tabs .oj-navigationlist-item-label,
-.visual-tabs .oj-tabbar-item-label {
-  color: var(--atlas-cream-muted) !important;
-}
-
-.visual-tabs .oj-selected a,
-.visual-tabs .oj-hover a,
-.visual-tabs .oj-selected .oj-navigationlist-item-label,
-.visual-tabs .oj-hover .oj-navigationlist-item-label,
-.visual-tabs .oj-selected .oj-tabbar-item-label,
-.visual-tabs .oj-hover .oj-tabbar-item-label {
-  color: var(--atlas-cream) !important;
+  border-top: 1px solid var(--atlas-line);
+  border-bottom: 1px solid var(--atlas-line);
+  background: rgba(255, 255, 255, 0.025);
 }
 
 .visual-switcher,
@@ -374,8 +476,8 @@ body.oj-web-applayout-body {
   overflow: hidden;
   cursor: grab;
   background:
-    linear-gradient(180deg, rgba(247, 241, 230, 0.05), rgba(17, 16, 13, 0.64)),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 1px, transparent 1px, transparent 62px);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.74)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0, rgba(255, 255, 255, 0.035) 1px, transparent 1px, transparent 62px);
 }
 
 .scene-mount:active {
@@ -394,7 +496,7 @@ body.oj-web-applayout-body {
   inset: 0;
   display: grid;
   place-items: center;
-  color: var(--atlas-cream-muted);
+  color: var(--atlas-muted);
   font-size: 0.95rem;
 }
 
@@ -409,10 +511,10 @@ body.oj-web-applayout-body {
   gap: 0.18rem;
   width: 14rem;
   padding: 0.72rem;
-  border: 1px solid rgba(240, 185, 79, 0.46);
+  border: 1px solid var(--atlas-line-strong);
   border-radius: 8px;
-  background: rgba(17, 16, 13, 0.9);
-  color: var(--atlas-cream);
+  background: rgba(5, 5, 5, 0.92);
+  color: var(--atlas-foreground);
   font-size: 0.78rem;
   pointer-events: none;
   backdrop-filter: blur(12px);
@@ -424,12 +526,12 @@ body.oj-web-applayout-body {
 }
 
 .scene-tooltip span {
-  color: var(--atlas-cream-muted);
+  color: var(--atlas-muted);
 }
 
 .scene-footnote {
   padding: 0.8rem 1rem 1rem;
-  color: var(--atlas-cream-muted);
+  color: var(--atlas-muted);
   font-size: 0.84rem;
 }
 
@@ -441,7 +543,16 @@ body.oj-web-applayout-body {
 .chart-panel {
   min-height: 24rem;
   padding: 1rem;
-  color: var(--atlas-ink);
+  color: var(--atlas-foreground);
+  animation: atlas-fade-up 520ms ease 180ms both;
+}
+
+.chart-panel:nth-child(2) {
+  animation-delay: 240ms;
+}
+
+.chart-panel:nth-child(3) {
+  animation-delay: 300ms;
 }
 
 .chart-panel-wide {
@@ -459,7 +570,7 @@ body.oj-web-applayout-body {
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 0.8rem;
-  color: var(--atlas-ink);
+  color: var(--atlas-foreground);
 }
 
 .panel-heading span {
@@ -480,11 +591,13 @@ body.oj-web-applayout-body {
 .insight-list-panel {
   margin-top: 1rem;
   padding: 1rem;
+  animation: atlas-fade-up 520ms ease 360ms both;
 }
 
 .insight-list,
 .fact-list {
   background: transparent;
+  --oj-collection-bg-color: transparent;
 }
 
 .insight-item {
@@ -503,7 +616,7 @@ body.oj-web-applayout-body {
 
 .insight-item strong,
 .fact-row strong {
-  color: var(--atlas-ink);
+  color: var(--atlas-foreground);
 }
 
 .insight-item p {
@@ -515,15 +628,48 @@ body.oj-web-applayout-body {
 .table-panel {
   height: min(68vh, 760px);
   min-height: 32rem;
-  overflow: hidden;
   padding: 0.25rem;
+  animation: atlas-fade-up 520ms ease 180ms both;
 }
 
 .laptop-table {
   width: 100%;
   height: 100%;
-  --oj-core-text-color-primary: var(--atlas-ink);
+  --oj-core-text-color-primary: var(--atlas-foreground);
   --oj-core-text-color-secondary: var(--atlas-muted);
+  --oj-collection-bg-color: var(--atlas-card);
+  --oj-collection-cell-banded-bg-color: rgba(255, 255, 255, 0.03);
+  --oj-collection-header-bg-color: #111113;
+  --oj-collection-header-text-color: var(--atlas-foreground);
+  --oj-collection-header-bg-color-hover: #18181b;
+  --oj-collection-header-bg-color-selected: rgba(255, 255, 255, 0.08);
+}
+
+.laptop-table .oj-table-header,
+.laptop-table .oj-table-header-row,
+.laptop-table .oj-table-column-header-cell,
+.laptop-table .oj-table-gutter-start-header-cell,
+.laptop-table .oj-table-gutter-end-header-cell {
+  background-color: #111113 !important;
+  color: var(--atlas-foreground) !important;
+}
+
+.laptop-table .oj-table-column-header,
+.laptop-table .oj-table-column-header-text,
+.laptop-table .oj-table-sort-icon-container,
+.laptop-table .oj-table-column-header-default-sort-icon {
+  color: var(--atlas-foreground) !important;
+  fill: var(--atlas-foreground) !important;
+}
+
+.laptop-table .oj-table-data-cell,
+.laptop-table .oj-table-body-row {
+  background-color: var(--atlas-card) !important;
+  color: var(--atlas-foreground) !important;
+}
+
+.laptop-table .oj-table-body-row.oj-hover .oj-table-data-cell {
+  background-color: var(--atlas-card-hover) !important;
 }
 
 .method-grid {
@@ -534,6 +680,11 @@ body.oj-web-applayout-body {
 .method-panel,
 .method-collapsible {
   padding: 1rem;
+  animation: atlas-fade-up 520ms ease 160ms both;
+}
+
+.method-panel:nth-child(2) {
+  animation-delay: 220ms;
 }
 
 .fact-row {
@@ -568,19 +719,50 @@ body.oj-web-applayout-body {
 oj-select-single,
 oj-input-text,
 oj-slider {
-  --oj-core-text-color-primary: var(--atlas-ink);
+  --oj-core-text-color-primary: var(--atlas-foreground);
   --oj-core-text-color-secondary: var(--atlas-muted);
+  --oj-label-color: var(--atlas-muted);
+  --oj-label-inside-edge-color: var(--atlas-muted);
+  --oj-text-field-bg-color: #050505;
+  --oj-text-field-border-color: var(--atlas-line-strong);
+  --oj-text-field-border-color-focus: var(--atlas-foreground);
+  --oj-text-field-box-shadow-focus: 0 0 0 1px var(--atlas-foreground) inset;
+  --oj-text-field-placeholder-color: var(--atlas-subtle);
+  --oj-text-field-text-color: var(--atlas-foreground);
+  --oj-text-field-bg-color-disabled: #09090b;
+  --oj-text-field-border-color-disabled: var(--atlas-line);
+  --oj-text-field-text-color-disabled: #52525b;
+}
+
+oj-slider {
+  --oj-slider-track-bg-color: #27272a;
+  --oj-slider-value-bg-color: var(--atlas-foreground);
+  --oj-slider-thumb-bg-color: var(--atlas-foreground);
+  --oj-slider-thumb-border-color: #000000;
+  --oj-slider-thumb-bg-color-hover: #ffffff;
+  --oj-slider-thumb-bg-color-active: #d4d4d8;
+  --oj-slider-thumb-border-color-active: #000000;
 }
 
 oj-button {
-  --oj-button-outlined-chrome-border-color: var(--atlas-dark);
-  --oj-button-outlined-chrome-text-color: var(--atlas-dark);
-  --oj-button-outlined-chrome-border-color-hover: var(--atlas-gold);
-  --oj-button-outlined-chrome-text-color-hover: var(--atlas-dark);
+  --oj-button-outlined-chrome-border-color: var(--atlas-line-strong);
+  --oj-button-outlined-chrome-text-color: var(--atlas-foreground);
+  --oj-button-outlined-chrome-bg-color: #050505;
+  --oj-button-outlined-chrome-bg-color-hover: var(--atlas-foreground);
+  --oj-button-outlined-chrome-border-color-hover: var(--atlas-foreground);
+  --oj-button-outlined-chrome-text-color-hover: #000000;
+  --oj-button-outlined-chrome-bg-color-active: #d4d4d8;
+  --oj-button-outlined-chrome-border-color-active: #d4d4d8;
+  --oj-button-outlined-chrome-text-color-active: #000000;
 }
 
 oj-chart {
-  --oj-dvt-item-outer-border-color-selected: var(--atlas-gold);
+  --oj-core-text-color-primary: var(--atlas-foreground);
+  --oj-core-text-color-secondary: var(--atlas-muted);
+  --oj-chart-axis-title-text-color: var(--atlas-muted);
+  --oj-chart-axis-tick-label-text-color: var(--atlas-muted);
+  --oj-dvt-item-outer-border-color-selected: var(--atlas-foreground);
+  --oj-dvt-contrast-line-color: var(--atlas-line-strong);
 }
 
 @media (max-width: 1024px) {
@@ -669,5 +851,16 @@ oj-chart {
 
   .table-panel {
     min-height: 28rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
   }
 }

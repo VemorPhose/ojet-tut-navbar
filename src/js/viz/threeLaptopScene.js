@@ -82,12 +82,12 @@ define([], function() {
     canvas.height = 64 * pixelRatio;
     context.scale(pixelRatio, pixelRatio);
     context.font = '600 22px Arial, sans-serif';
-    context.fillStyle = 'rgba(15, 23, 42, 0.82)';
+    context.fillStyle = 'rgba(5, 5, 5, 0.88)';
     context.fillRect(0, 0, 256, 64);
-    context.strokeStyle = color || '#f3efe6';
+    context.strokeStyle = color || '#fafafa';
     context.lineWidth = 2;
     context.strokeRect(1, 1, 254, 62);
-    context.fillStyle = color || '#f3efe6';
+    context.fillStyle = color || '#fafafa';
     context.fillText(label, 18, 40);
 
     const texture = new THREE.CanvasTexture(canvas);
@@ -101,7 +101,7 @@ define([], function() {
   }
 
   function addAxis(THREE, root, start, end, label, labelPosition, color) {
-    const material = new THREE.LineBasicMaterial({ color: color || 0xf8f5ee, transparent: true, opacity: 0.82 });
+    const material = new THREE.LineBasicMaterial({ color: color || 0xf4f4f5, transparent: true, opacity: 0.82 });
     const geometry = new THREE.BufferGeometry().setFromPoints([
       new THREE.Vector3(start[0], start[1], start[2]),
       new THREE.Vector3(end[0], end[1], end[2])
@@ -109,13 +109,13 @@ define([], function() {
     const line = new THREE.Line(geometry, material);
     root.add(line);
 
-    const sprite = createTextSprite(THREE, label, '#f3efe6');
+    const sprite = createTextSprite(THREE, label, '#fafafa');
     sprite.position.set(labelPosition[0], labelPosition[1], labelPosition[2]);
     root.add(sprite);
   }
 
   function addGrid(THREE, root, size) {
-    const material = new THREE.LineBasicMaterial({ color: 0xd6c6a8, transparent: true, opacity: 0.22 });
+    const material = new THREE.LineBasicMaterial({ color: 0x71717a, transparent: true, opacity: 0.28 });
     const geometry = new THREE.BufferGeometry();
     const points = [];
     const half = size / 2;
@@ -190,7 +190,7 @@ define([], function() {
       container.classList.add('scene-ready');
 
       const scene = new THREE.Scene();
-      scene.fog = new THREE.Fog(0x090806, 46, 92);
+      scene.fog = new THREE.Fog(0x000000, 46, 92);
 
       const camera = new THREE.PerspectiveCamera(44, width / height, 0.1, 1000);
       camera.position.set(0, 11, 38);
@@ -203,7 +203,7 @@ define([], function() {
       });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       renderer.setSize(width, height);
-      renderer.setClearColor(0x11100d, 1);
+      renderer.setClearColor(0x050505, 1);
       container.appendChild(renderer.domElement);
 
       const tooltip = createTooltip(container);
@@ -212,17 +212,17 @@ define([], function() {
       root.rotation.y = 0.62;
       scene.add(root);
 
-      const ambient = new THREE.AmbientLight(0xf8f5ee, 0.88);
+      const ambient = new THREE.AmbientLight(0xf4f4f5, 0.88);
       const key = new THREE.DirectionalLight(0xffffff, 1.3);
-      const rim = new THREE.PointLight(0xf7d08a, 1.2, 90);
+      const rim = new THREE.PointLight(0xd4d4d8, 1.2, 90);
       key.position.set(10, 18, 14);
       rim.position.set(-14, 10, 18);
       scene.add(ambient, key, rim);
 
       addGrid(THREE, root, size);
-      addAxis(THREE, root, [-size / 2, -size / 2, -size / 2], [size / 2, -size / 2, -size / 2], config.axes.x.label, [size / 2 + 3.1, -size / 2, -size / 2], 0xf3efe6);
-      addAxis(THREE, root, [-size / 2, -size / 2, -size / 2], [-size / 2, size / 2, -size / 2], config.axes.y.label, [-size / 2 - 3.1, size / 2 + 0.4, -size / 2], 0xf7d08a);
-      addAxis(THREE, root, [-size / 2, -size / 2, -size / 2], [-size / 2, -size / 2, size / 2], config.axes.z.label, [-size / 2, -size / 2, size / 2 + 3.1], 0xd6c6a8);
+      addAxis(THREE, root, [-size / 2, -size / 2, -size / 2], [size / 2, -size / 2, -size / 2], config.axes.x.label, [size / 2 + 3.1, -size / 2, -size / 2], 0xfafafa);
+      addAxis(THREE, root, [-size / 2, -size / 2, -size / 2], [-size / 2, size / 2, -size / 2], config.axes.y.label, [-size / 2 - 3.1, size / 2 + 0.4, -size / 2], 0xd4d4d8);
+      addAxis(THREE, root, [-size / 2, -size / 2, -size / 2], [-size / 2, -size / 2, size / 2], config.axes.z.label, [-size / 2, -size / 2, size / 2 + 3.1], 0xa1a1aa);
 
       const positions = [];
       const colors = [];
@@ -253,7 +253,7 @@ define([], function() {
       root.add(points);
 
       const markerGeometry = new THREE.SphereGeometry(0.34, 24, 24);
-      const markerMaterial = new THREE.MeshBasicMaterial({ color: 0xf7d08a, transparent: true, opacity: 0.88 });
+      const markerMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.88 });
       const marker = new THREE.Mesh(markerGeometry, markerMaterial);
       marker.visible = false;
       root.add(marker);

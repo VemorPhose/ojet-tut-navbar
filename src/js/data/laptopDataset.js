@@ -2,31 +2,31 @@ define(['text!./laptop-data.csv'], function(csvText) {
   'use strict';
 
   const palette = [
-    '#f59e0b', '#2563eb', '#059669', '#dc2626', '#7c3aed',
-    '#0891b2', '#db2777', '#4b5563', '#b45309', '#0f766e'
+    '#f59e0b', '#60a5fa', '#34d399', '#f87171', '#a78bfa',
+    '#22d3ee', '#f472b6', '#cbd5e1', '#fb923c', '#2dd4bf'
   ];
 
   const namedColors = {
-    Gaming: '#dc2626',
-    Workstation: '#7c3aed',
-    Ultrabook: '#2563eb',
-    Notebook: '#64748b',
-    Netbook: '#0891b2',
-    '2 in 1 Convertible': '#059669',
-    SSD: '#2563eb',
-    HDD: '#b45309',
-    Hybrid: '#7c3aed',
-    Flash: '#0891b2',
-    Other: '#64748b',
-    Intel: '#2563eb',
-    AMD: '#dc2626',
-    Nvidia: '#059669',
-    Apple: '#111827',
-    Windows: '#2563eb',
-    macOS: '#111827',
+    Gaming: '#f87171',
+    Workstation: '#a78bfa',
+    Ultrabook: '#60a5fa',
+    Notebook: '#94a3b8',
+    Netbook: '#22d3ee',
+    '2 in 1 Convertible': '#34d399',
+    SSD: '#60a5fa',
+    HDD: '#fb923c',
+    Hybrid: '#a78bfa',
+    Flash: '#22d3ee',
+    Other: '#94a3b8',
+    Intel: '#60a5fa',
+    AMD: '#f87171',
+    Nvidia: '#34d399',
+    Apple: '#f8fafc',
+    Windows: '#60a5fa',
+    macOS: '#f8fafc',
     Linux: '#f59e0b',
-    Chrome: '#059669',
-    None: '#64748b'
+    Chrome: '#34d399',
+    None: '#94a3b8'
   };
 
   const sceneConfigs = [
@@ -475,7 +475,7 @@ define(['text!./laptop-data.csv'], function(csvText) {
       group: item.group + ' GB',
       value: item.value,
       count: item.count,
-      color: '#2563eb'
+      color: '#60a5fa'
     }));
   }
 
